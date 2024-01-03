@@ -7,10 +7,12 @@ from api.models.politician import Politician
 import re
 
 class ReadHousePDF:
-    rejected_stock_pdfs = set()
-    rejected_stock_markers = set()
-    rejected_politicians = set()
-    rejected_column_pdfs = set()
+    def __init__(self):
+        self.rejected_stock_pdfs = set()
+        self.rejected_stock_markers = set()
+        self.rejected_politicians = set()
+        self.rejected_column_pdfs = set()
+
     def read_pdf_table_data(self, report:dict, col_size):
         try:
             tables = camelot.read_pdf(report['report_link'], pages='all', flavor='stream', row_tol=20, columns=col_size, split_text=True, strip_text='\n')
@@ -50,11 +52,11 @@ class ReadHousePDF:
         cursor = conn.cursor()
         statement = """INSERT INTO trades (stock_id, politician_id, purchased_or_sold, transaction_date, notification_date, amount)
                                 VALUES(%s, %s, %s, %s, %s, %s);"""
-        if not self.check_record_existence(record, user, database):
-            print(statement, record)
-            cursor.execute(statement, record)
-            conn.commit()
-            conn.close()
+        # if not self.check_record_existence(record, user, database):
+        print(statement, record)
+        cursor.execute(statement, record)
+        conn.commit()
+        conn.close()
 
     def check_record_existence(self,record, user, database):
         conn = psycopg2.connect(user=user, database=database)
@@ -80,7 +82,7 @@ class ReadHousePDF:
                 self.read_pdf_table_data(report, col_size)
             except UserWarning:
                 print("Can't use image based file")
-        return self.rejected_stock_pdfs, self.rejected_politicians, self.rejected_stock_markers, self.rejected_column_pdfs
+        return [self.rejected_stock_pdfs, self.rejected_politicians, self.rejected_stock_markers, self.rejected_column_pdfs]
 
     def parse_politician_name(self, report:dict):
         name_split = report['name'].split(', Hon.. ')
@@ -92,36 +94,21 @@ class ReadHousePDF:
         return stock_marker
 
     def validate_data(self, report, table, row):
-        self.validate_purchase_or_sold_column(row, report)
-        self.validate_date_columns(row, report)
-        self.validate_amount_column(row, report)
-        return True
-    
-    def validate_purchase_or_sold_column(self,row, report):
-        # if second element is empty or len greater than 2, return error for purchase/sold
         if row[1] == '' or len(row[1]) > 2:
             print('Error with purchase or sold column', row[1])
             print(report['report_link'])
-            self.rejected_column_pdfs.add(report['report_link'])
+            self.rejected_column_pdfs.add(report)
             return False
-    
-    def validate_date_columns(self, row, report):
-        # if 3rd or 4th element are not 10 characters, return date error
-        if not self.check_date_formats([row[2], row[3]]):
+        elif not self.check_date_formats([row[2], row[3]]):
             print('Error with date columns', row[2], row[3])
             print(report['report_link'])
-            self.rejected_column_pdfs.add(report['report_link'])
-            # camelot.plot(table, kind='text').show()
-            # breakpoint()
-            return False
-    
-    def validate_amount_column(self, row, report):
-        # if $ not in 5th element, return amount error
-        if '$' not in row[4]:
+            self.rejected_column_pdfs.add(report)
+        elif '$' not in row[4]:
             print('Error with amount column', row[4])
             print(report['report_link'])
-            self.rejected_column_pdfs.add(report['report_link'])
+            self.rejected_column_pdfs.add(report)
             return False
+        return True
     
     def check_date_formats(self, dates):
         for date in dates:

@@ -4,28 +4,29 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
-from data.models.read_house_trade_pdfs import ReadHousePDF
 soup = BeautifulSoup('html', 'lxml')
 
 class HouseScraper:
-    transaction_reports = []
-    def initialize_webscrape(self):
+    def __init__(self):
+        self.transaction_reports = []
+
+    def initialize_webscrape(self, year_identifier, end_page):
         driver = webdriver.Chrome()
-        self.go_to_search_table(driver)
+        self.go_to_search_table(driver, year_identifier, end_page)
         driver.quit()
         return self.transaction_reports
 
-    def go_to_search_table(self,driver):
+    def go_to_search_table(self,driver, year_identifier, end_page):
         driver.get('https://disclosures-clerk.house.gov/FinancialDisclosure')
-        self.go_to_requested_filing_year(driver)
+        self.go_to_requested_filing_year(driver, year_identifier)
         time.sleep(3)
-        self.find_table_information_for_page_range(1, 15, driver)
+        self.find_table_information_for_page_range(1, end_page, driver)
 
-    def go_to_requested_filing_year(self,driver):
+    def go_to_requested_filing_year(self,driver,year_identifier):
         search_button = driver.find_element(By.XPATH, '//*[@id="main-content"]/div/div[1]/ul/li[7]/a')
         search_button.click()
         time.sleep(2)
-        dropdown = driver.find_element(By.XPATH, '//*[@id="FilingYear"]/option[12]')
+        dropdown = driver.find_element(By.XPATH, f'//*[@id="FilingYear"]/option[{year_identifier}]')
         dropdown.click()
         time.sleep(2)
         search_click = driver.find_element(By.XPATH, '//*[@id="search-members"]/form/div[4]/button[1]')
