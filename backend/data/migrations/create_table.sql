@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS trades(
     politician_id integer,
     purchased_or_sold varchar(255),
     transaction_date date,
-    notification_date date,
     amount varchar(255)
 );
 

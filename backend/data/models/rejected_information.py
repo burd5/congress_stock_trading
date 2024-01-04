@@ -1,9 +1,10 @@
-from data.models.scrape_house_stocks import HouseScraper
-from data.models.read_house_trade_pdfs import ReadHousePDF
+from data.models.scrape_house_trades import HouseScraper
+from data.models.house_stock_adapter import ReadHousePDF
+#['88,267.5,315,385,444,526']
 
 class RejectedInfo:
-    def scrape_per_year(self, year_identifier, number_of_pages):
-        columns = [['89,228,285,362,423,509'], ['88,265.5,315,385,444,535'], ['88,260,315,381,448,545'], ['88,267.5,315,385,444,526'], ['107,256,323,391,456, 550']]
+    def scrape_per_year(self, year_identifier: str, number_of_pages: int):
+        columns = [['89,228,285,362,423,509'], ['88,265.5,315,385,444,535'], ['88,260,315,381,448,545'], ['107,256,323,391,456, 550']]
 
         rejected_stock_pdfs = []
         rejected_politicians = []
