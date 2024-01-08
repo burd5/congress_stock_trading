@@ -77,3 +77,5 @@ class SenateScraper:
         anchor_tag = link_element.find_element(By.TAG_NAME, 'a')
         href = anchor_tag.get_attribute('href')
         return {'name': name, 'report_link': href}
+    
+

@@ -2,6 +2,7 @@ matplotlib
 pandas
 flask
 selenium
+camelot-py==0.11.0
 camelot-py[cv]
 camelot-py[plot]
 bs4

@@ -12,7 +12,19 @@ class Politician(models.BaseClass):
         pass
 
     @classmethod
-    def find_by_name_and_office(cls, name: str, office: str, cursor: object):
+    def find_by_name_house(cls, name: str, cursor: object):
+        cursor.execute("""select * from politicians where name = %s;""", (name, ))
+        politician = cursor.fetchone()
+        return build_from_record(Politician, politician)
+    
+    @classmethod
+    def find_by_name_senate(cls, name: str, cursor: object):
+        cursor.execute("""select * from politicians where name = %s and part_of_congress = 'Senate';""", (name, ))
+        politician = cursor.fetchone()
+        return build_from_record(Politician, politician)
+    
+    @classmethod
+    def find_by_office(cls, office: str, name: str, cursor: object):
         cursor.execute("""select * from politicians where name = %s and office = %s;""", (name, office,))
         politician = cursor.fetchone()
         return build_from_record(Politician, politician)
