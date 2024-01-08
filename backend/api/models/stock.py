@@ -1,15 +1,23 @@
 import api.models as models
-from api.lib.db import build_from_record
+from api.lib.db import build_from_record, build_from_records, cursor
+import api.models as models
 
 class Stock(models.BaseClass):
     __table__ = 'stocks'
     attributes = ['id', 'stock_marker', 'company_name']
 
     def politicians(self):
-        pass
+        cursor.execute(f"""select p.* from politicians p join trades t
+                                on p.id = t.politician_id
+                                where t.stock_id = %s;""", (self.id,))
+        records = cursor.fetchall()
+        return build_from_records(models.Politician, records)
 
     def trades(self):
-        pass
+        cursor.execute(f"""select t.* from trades
+                           where t.stock_id = %s;""", (self.id,))
+        records = cursor.fetchall()
+        return build_from_records(models.Trade, records)
 
     @classmethod
     def find_by_stock_marker(cls, marker: str, cursor: object):
