@@ -45,3 +45,8 @@ def find_all(Class):
     cursor.execute(f"""select * from {Class.__table__};""")
     records = cursor.fetchall()
     return build_from_records(Class, records)
+
+def find(Class, id):
+    cursor.execute(f"""select * from {Class.__table__} where id = %s;""", (id,))
+    record = cursor.fetchone()
+    return build_from_record(Class, record)

@@ -1,5 +1,4 @@
 import camelot
-import psycopg2
 from settings import USER, DATABASE
 from api.lib.db import cursor, add_record_to_database, check_record_existence
 from api.models.stock import Stock

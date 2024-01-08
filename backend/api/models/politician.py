@@ -7,15 +7,15 @@ class Politician(models.BaseClass):
 
     def stocks(self):
         cursor.execute(f"""select s.* from stocks s join trades t
-                                on s.id = t.stock_id
-                                where t.politician_id = %s;""", (self.id,))
+                            on s.id = t.stock_id
+                            where t.politician_id = %s;""", (self.id,))
         records = cursor.fetchall()
         return build_from_records(models.Stock, records)
 
     def trades(self):
-        cursor.execute(f"""select t.*
+        cursor.execute(f"""select *
                             from trades
-                            where t.politician_id = %s;""", (self.id,))
+                            where politician_id = %s;""", (self.id,))
         records = cursor.fetchall()
         return build_from_records(models.Trade, records)
 
