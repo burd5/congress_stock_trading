@@ -33,17 +33,22 @@ class ReadHousePDF:
         if row._3 in ['S', 'P', 'SP', 'E']:
             formatted_row = self.coerce_row_data(row)
             status = self.validate_data(report, table, formatted_row)
-            if status:
-                politician = self.validate_politician_object(formatted_row, report, politician_info)
-                stock = self.validate_stock_object(formatted_row, report, politician_info)
-                table_data = [stock, politician] + formatted_row[1:]
-                if politician and stock:
-                    add_record_to_database(table_data, USER, DATABASE)
-                try:
-                    self.rejected_column_pdfs.remove(report['report_link'])
-                    print('link removed')
-                except:
-                    print('link not in rejected pdfs')
+            if status: self.check_for_stock_and_politician_match_in_db(formatted_row, report, politician_info)
+                
+    def check_for_stock_and_politician_match_in_db(self, formatted_row, report, politician_info):
+        politician = self.validate_politician_object(formatted_row, report, politician_info)
+        stock = self.validate_stock_object(formatted_row, report, politician_info)
+        table_data = [stock, politician] + formatted_row[1:]
+        if politician and stock: 
+            add_record_to_database(table_data, USER, DATABASE)
+        self.remove_link_from_rejected_pdfs_if_successfully_scraped(report)
+
+    def remove_link_from_rejected_pdfs_if_successfully_scraped(self, report):
+        try:
+            self.rejected_column_pdfs.remove(report['report_link'])
+            print('link removed')
+        except:
+            print('link not in rejected pdfs')
     
     def validate_politician_object(self, formatted_row: list, report: dict, politician_info: dict):
         politician_by_name = Politician.find_by_name_house(politician_info['name'], cursor)
@@ -75,13 +80,9 @@ class ReadHousePDF:
         return [self.rejected_stock_pdfs, self.rejected_politicians, self.rejected_stock_markers, self.rejected_column_pdfs]
 
     def parse_politician_name(self, report:dict):
-        try:
-            name_split = report['name'].split(', Hon.. ')
-            if len(name_split) == 1: return name_split[0]
-            check_for_middle = name_split[1].split(' ')
-        except Exception as error:
-            print(error, traceback.format_exc())
-            breakpoint()
+        name_split = report['name'].split(', Hon.. ')
+        if len(name_split) == 1: return name_split[0]
+        check_for_middle = name_split[1].split(' ')
         if len(check_for_middle) > 1:
             full_name = ' '.join([check_for_middle[0], name_split[0]])
         else:

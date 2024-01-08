@@ -10,6 +10,9 @@ def build_from_record(Class, record):
     obj.__dict__ = attrs
     return obj
 
+def build_from_records(Class, records):
+    return [build_from_record(Class, record) for record in records]
+
 def add_record_to_database(record: list, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
     cursor = conn.cursor()
@@ -37,3 +40,8 @@ def check_record_existence(record: dict, user: str, database: str):
     exists = cursor.fetchone()[0]
     conn.close()
     return exists
+
+def find_all(Class):
+    cursor.execute(f"""select * from {Class.__table__};""")
+    records = cursor.fetchall()
+    return build_from_records(Class, records)
