@@ -6,14 +6,14 @@ class Stock(models.BaseClass):
     __table__ = 'stocks'
     attributes = ['id', 'stock_marker', 'company_name']
 
-    def politicians(self):
+    def politicians(self, cursor):
         cursor.execute(f"""select distinct p.* from politicians p join trades t
                                 on p.id = t.politician_id
                                 where t.stock_id = %s;""", (self.id,))
         records = cursor.fetchall()
         return build_from_records(models.Politician, records)
 
-    def trades(self):
+    def trades(self, cursor):
         cursor.execute(f"""select * from trades
                            where stock_id = %s;""", (self.id,))
         records = cursor.fetchall()
@@ -29,4 +29,4 @@ class Stock(models.BaseClass):
     def find_by_company_name(cls, name: str, cursor: object):
         cursor.execute("""select * from stocks where company_name ILIKE %s;""", (f'%{name}%',))
         records = cursor.fetchall()
-        return records
+        return build_from_records(Stock, records)
