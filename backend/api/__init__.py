@@ -28,9 +28,10 @@ def create_app():
     
     @app.route('/politicians/trades/<id>')
     def politician_trades(id):
+        cursor = conn.cursor()
         politician = find(models.Politician, id)
         trades = politician.trades()
-        return jsonify([trade.to_json() for trade in trades])
+        return jsonify([trade.to_json(cursor) for trade in trades])
     
     @app.route('/trades')
     def trades():
@@ -43,7 +44,7 @@ def create_app():
         cursor = conn.cursor()
         stock = models.Stock.find_by_stock_marker(marker.upper(), cursor)
         trades = stock.trades()
-        return jsonify([trade.to_json() for trade in trades])
+        return jsonify([trade.to_json(cursor) for trade in trades])
     
     @app.route('/stocks/politicians/<marker>')
     def politicians_who_bought_stock(marker):

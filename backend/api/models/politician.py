@@ -3,16 +3,16 @@ from api.lib.db import build_from_record, build_from_records, cursor
 
 class Politician(models.BaseClass):
     __table__ = 'politicians'
-    attributes = ['id', 'name', 'part_of_congress', 'state', 'political_party', 'office_marker']
+    attributes = ['id', 'name', 'part_of_congress', 'state', 'political_party', 'office']
 
-    def stocks(self):
+    def stocks(self, cursor):
         cursor.execute(f"""select s.* from stocks s join trades t
                             on s.id = t.stock_id
                             where t.politician_id = %s;""", (self.id,))
         records = cursor.fetchall()
         return build_from_records(models.Stock, records)
 
-    def trades(self):
+    def trades(self, cursor):
         cursor.execute(f"""select *
                             from trades
                             where politician_id = %s;""", (self.id,))
@@ -21,7 +21,7 @@ class Politician(models.BaseClass):
 
     @classmethod
     def find_by_name_house(cls, name: str, cursor: object):
-        cursor.execute("""select * from politicians where name = %s;""", (name, ))
+        cursor.execute("""select * from politicians where name = %s and part_of_congress = 'House';""", (name, ))
         politician = cursor.fetchone()
         return build_from_record(Politician, politician)
     
