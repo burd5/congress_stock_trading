@@ -1,7 +1,9 @@
 import psycopg2
-from settings import DATABASE, USER
+from settings import DATABASE, USER, TEST_DB
 conn = psycopg2.connect(dbname=DATABASE, user=USER)
 cursor = conn.cursor()
+test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
+test_cursor = test_conn.cursor()
 
 def build_from_record(Class, record):
     if not record: return None
@@ -50,3 +52,27 @@ def find(Class, id):
     cursor.execute(f"""select * from {Class.__table__} where id = %s;""", (id,))
     record = cursor.fetchone()
     return build_from_record(Class, record)
+
+def drop_all_tables(test_conn, test_cursor):
+    tables = ['trades', 'stocks', 'politicians']
+    for table in tables:
+        test_cursor.execute(f"""TRUNCATE {table} RESTART IDENTITY;""")
+        test_conn.commit()
+
+def save(obj, conn, cursor):
+    s_str = ', '.join(len(values(obj)) * ['%s'])
+    venue_str = f"""INSERT INTO {obj.__table__} ({keys(obj)}) VALUES ({s_str});"""
+    cursor.execute(venue_str, list(values(obj)))
+    conn.commit()
+    cursor.execute(f'SELECT * FROM {obj.__table__} ORDER BY id DESC LIMIT 1')
+    record = cursor.fetchone()
+    return build_from_record(type(obj), record)
+
+def keys(obj):
+    venue_attrs = obj.__dict__
+    selected = [attr for attr in obj.attributes if attr in venue_attrs.keys()]
+    return ', '.join(selected)
+
+def values(obj):
+    venue_attrs = obj.__dict__
+    return [venue_attrs[attr] for attr in obj.attributes if attr in venue_attrs.keys()]

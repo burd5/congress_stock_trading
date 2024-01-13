@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS stocks(
     company_name VARCHAR(255)
 );
 
-\copy stocks (stock_marker, company_name) FROM 'combined_stocks.csv' DELIMITER ',' CSV HEADER;
+-- \copy stocks (stock_marker, company_name) FROM 'combined_stocks.csv' DELIMITER ',' CSV HEADER;
 
-\copy politicians (name, part_of_congress, state, political_party, office) FROM 'current_leg.csv' DELIMITER ',' CSV HEADER;
+-- \copy politicians (name, part_of_congress, state, political_party, office) FROM 'current_leg.csv' DELIMITER ',' CSV HEADER;
 
-\copy politicians (name, part_of_congress, state, political_party, office) FROM 'historical_leg.csv' DELIMITER ',' CSV HEADER;
+-- \copy politicians (name, part_of_congress, state, political_party, office) FROM 'historical_leg.csv' DELIMITER ',' CSV HEADER;
