@@ -26,6 +26,31 @@ def add_record_to_database(record: list, user: str, database: str):
         conn.commit()
         conn.close()
 
+def add_asset_record(record: list, user: str, database: str):
+    conn = psycopg2.connect(user=user, database=database)
+    cursor = conn.cursor()
+    statement = """INSERT INTO stocks (company_name, asset_type)
+                            VALUES(%s, %s);"""
+    if not check_asset_existence(record, user, database):
+        print(statement, record)
+        cursor.execute(statement, record)
+        conn.commit()
+        conn.close()
+
+def check_asset_existence(record: dict, user: str, database: str):
+    conn = psycopg2.connect(user=user, database=database)
+    cursor = conn.cursor()
+    
+    check_statement = """SELECT EXISTS(
+                            SELECT 1 FROM stocks
+                            WHERE company_name = %s 
+                            AND asset_type = %s
+                        );"""
+    cursor.execute(check_statement, record)
+    exists = cursor.fetchone()[0]
+    conn.close()
+    return exists
+
 def check_record_existence(record: dict, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
     cursor = conn.cursor()

@@ -4,7 +4,7 @@ import api.models as models
 
 class Stock(models.BaseClass):
     __table__ = 'stocks'
-    attributes = ['id', 'stock_marker', 'company_name']
+    attributes = ['id', 'stock_marker', 'company_name', 'asset_type']
 
     def politicians(self, cursor):
         cursor.execute(f"""select distinct p.* from politicians p join trades t

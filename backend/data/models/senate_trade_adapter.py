@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
 from settings import USER, DATABASE
-from api.lib.db import cursor, add_record_to_database, check_record_existence
+from api.lib.db import cursor, add_record_to_database, add_asset_record
 soup = BeautifulSoup('html', 'lxml')
 
 class ReadTransactionTableData:
@@ -47,8 +47,8 @@ class ReadTransactionTableData:
                 cols = row.find_elements(By.TAG_NAME,'td')
                 text = [col.text for col in cols]
                 self.check_for_matching_ticker(text, politician)
-        except:
-            print('image_based_file')
+        except Exception as error:
+            print('Record could not be added to database', error)
 
     def format_database_values(self, stock: Stock, text: list, politician: Politician):
         transaction_date = text[1]
@@ -58,7 +58,27 @@ class ReadTransactionTableData:
     
     def check_for_matching_ticker(self, text, politician):
         stock = Stock.find_by_stock_marker(text[3], cursor)
-        if stock: 
+        if not stock:
+            self.create_asset_values(text, politician)
+        else:
             values = self.format_database_values(stock, text, politician)
             add_record_to_database(values, USER, DATABASE)
+
+    def format_asset_name(self, text):
+        try:
+            name = text[4].split('\n')[0]
+            return name
+        except:
+            return text[4]
+    
+    def create_asset_values(self, text, politician):
+        name = self.format_asset_name(text)
+        type = text[5]
+        add_asset_record([name, type], USER, DATABASE)
+        asset = Stock.find_by_company_name(name, cursor)
+        values = self.format_database_values(asset[0], text, politician)
+        add_record_to_database(values, USER, DATABASE)
+
+    
+         
 
