@@ -1,4 +1,5 @@
 import psycopg2
+from flask import g, current_app
 from settings import DATABASE, USER, TEST_DB
 conn = psycopg2.connect(dbname=DATABASE, user=USER)
 cursor = conn.cursor()
@@ -101,3 +102,15 @@ def keys(obj):
 def values(obj):
     venue_attrs = obj.__dict__
     return [venue_attrs[attr] for attr in obj.attributes if attr in venue_attrs.keys()]
+
+def get_db():
+    if "db" not in g:
+        g.db = psycopg2.connect(user = current_app.config['DB_USER'],
+                    password = current_app.config['DB_PASSWORD'],
+                    dbname = current_app.config['DB_NAME'])
+    return g.db
+
+def close_db(e=None):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()

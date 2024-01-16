@@ -4,13 +4,13 @@ import psycopg2
 import api.models as models
 from api.lib.db import find_all, find
 
-def create_app():
+def create_app(dbname=DATABASE, user=USER, password=PASSWORD):
     app = Flask(__name__)
 
     app.config.from_mapping(
-        DB_NAME = DATABASE,
-        DB_USER = USER,
-        DB_PASSWORD = PASSWORD
+        DB_NAME = dbname,
+        DB_USER = user,
+        DB_PASSWORD = password
     )
 
     conn = psycopg2.connect(dbname=app.config['DB_NAME'], user=app.config['DB_USER'], password=app.config['DB_PASSWORD'])
@@ -37,7 +37,6 @@ def create_app():
     def trades():
         trades = find_all(models.Trade)
         return jsonify([trade.__dict__ for trade in trades])
-
 
     @app.route('/trades/<marker>')
     def trades_by_stock(marker):
