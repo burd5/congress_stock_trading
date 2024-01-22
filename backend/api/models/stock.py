@@ -1,5 +1,5 @@
 import api.models as models
-from api.lib.db import build_from_record, build_from_records, cursor
+from api.lib.orm import build_from_record, build_from_records
 import api.models as models
 
 class Stock(models.BaseClass):

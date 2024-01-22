@@ -1,5 +1,5 @@
 import api.models as models
-from api.lib.db import build_from_record, build_from_records, cursor
+from api.lib.orm import build_from_record, build_from_records
 
 class Politician(models.BaseClass):
     __table__ = 'politicians'

@@ -1,5 +1,5 @@
 import api.models as models
-from api.lib.db import cursor, build_from_record
+from api.lib.orm import build_from_record
 
 class Trade(models.BaseClass):
     __table__ = 'trades'

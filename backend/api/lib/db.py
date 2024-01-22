@@ -1,20 +1,9 @@
 import psycopg2
 from flask import g, current_app
 from settings import DATABASE, USER, TEST_DB
-conn = psycopg2.connect(dbname=DATABASE, user=USER)
-cursor = conn.cursor()
+from api.lib.orm import build_from_record
 test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
 test_cursor = test_conn.cursor()
-
-def build_from_record(Class, record):
-    if not record: return None
-    attrs = dict(zip(Class.attributes, record))
-    obj = Class()
-    obj.__dict__ = attrs
-    return obj
-
-def build_from_records(Class, records):
-    return [build_from_record(Class, record) for record in records]
 
 def add_record_to_database(record: list, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
@@ -69,21 +58,11 @@ def check_record_existence(record: dict, user: str, database: str):
     conn.close()
     return exists
 
-def find_all(Class):
-    cursor.execute(f"""select * from {Class.__table__};""")
-    records = cursor.fetchall()
-    return build_from_records(Class, records)
-
-def find(Class, id):
-    cursor.execute(f"""select * from {Class.__table__} where id = %s;""", (id,))
-    record = cursor.fetchone()
-    return build_from_record(Class, record)
-
-def drop_all_tables(test_conn, test_cursor):
-    tables = ['trades', 'stocks', 'politicians']
+def drop_all_tables(conn, cursor):
+    tables = ['stocks', 'politicians', 'trades']
     for table in tables:
-        test_cursor.execute(f"""TRUNCATE {table} RESTART IDENTITY;""")
-        test_conn.commit()
+        cursor.execute(f"""DELETE FROM {table};""")
+        conn.commit()
 
 def save(obj, conn, cursor):
     s_str = ', '.join(len(values(obj)) * ['%s'])

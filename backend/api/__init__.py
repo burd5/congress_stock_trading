@@ -2,9 +2,9 @@ from flask import Flask, jsonify
 from settings import DATABASE, USER, PASSWORD
 import psycopg2
 import api.models as models
-from api.lib.db import find_all, find
+from api.lib.orm import find_all, find
 
-def create_app(dbname=DATABASE, user=USER, password=PASSWORD):
+def create_app(dbname, user, password):
     app = Flask(__name__)
 
     app.config.from_mapping(
@@ -23,33 +23,35 @@ def create_app(dbname=DATABASE, user=USER, password=PASSWORD):
     
     @app.route('/politicians')
     def politicians():
-        politicians = find_all(models.Politician)
+        cursor = conn.cursor()
+        politicians = find_all(cursor, models.Politician)
         return jsonify([politician.__dict__ for politician in politicians])
     
     @app.route('/politicians/trades/<id>')
     def politician_trades(id):
         cursor = conn.cursor()
-        politician = find(models.Politician, id)
-        trades = politician.trades()
+        politician = find(cursor, models.Politician, id)
+        trades = politician.trades(cursor)
         return jsonify([trade.to_json(cursor) for trade in trades])
     
     @app.route('/trades')
     def trades():
-        trades = find_all(models.Trade)
+        cursor = conn.cursor()
+        trades = find_all(cursor, models.Trade)
         return jsonify([trade.__dict__ for trade in trades])
 
     @app.route('/trades/<marker>')
     def trades_by_stock(marker):
         cursor = conn.cursor()
         stock = models.Stock.find_by_stock_marker(marker.upper(), cursor)
-        trades = stock.trades()
+        trades = stock.trades(cursor)
         return jsonify([trade.to_json(cursor) for trade in trades])
     
     @app.route('/stocks/politicians/<marker>')
     def politicians_who_bought_stock(marker):
         cursor = conn.cursor()
         stock = models.Stock.find_by_stock_marker(marker.upper(), cursor)
-        politicians = stock.politicians()
+        politicians = stock.politicians(cursor)
         return jsonify([politician.__dict__ for politician in politicians])
 
     return app
