@@ -5,14 +5,9 @@ from data.models.scrape_senate_trades import SenateScraper
 from data.models.senate_trade_adapter import ReadTransactionTableData
 from data.models.senate_trade_adapter import ReadTransactionTableData
 import api.models as api_models
-from api.lib.db import cursor, conn
 
-# results_2018 = RejectedInfo()
-# results_2019 = RejectedInfo()
-# results_2020 = RejectedInfo()
-# results_2021 = RejectedInfo()
-# results_2022 = RejectedInfo()
-# results_2023 = RejectedInfo()
+results_2024 = RejectedInfo()
+results_2024.scrape_per_year()
 
 scraped_senate_reports = SenateScraper(79).initialize_webscrape()
 print(ReadTransactionTableData().process_transactions(scraped_senate_reports))

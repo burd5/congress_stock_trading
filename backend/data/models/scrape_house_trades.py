@@ -10,28 +10,31 @@ class HouseScraper:
     def __init__(self):
         self.transaction_reports = []
 
-    def initialize_webscrape(self, year_identifier: str, end_page: int):
+    def initialize_webscrape(self):
         driver = webdriver.Chrome()
-        self.go_to_search_table(driver, year_identifier, end_page)
+        self.go_to_search_table(driver)
         driver.quit()
         return self.transaction_reports
 
-    def go_to_search_table(self,driver, year_identifier: str, end_page: int):
+    def go_to_search_table(self,driver):
         driver.get('https://disclosures-clerk.house.gov/FinancialDisclosure')
-        self.go_to_requested_filing_year(driver, year_identifier)
+        stop = self.go_to_requested_filing_year(driver)
         time.sleep(3)
-        self.find_table_information_for_page_range(1, end_page, driver)
+        self.find_table_information_for_page_range(1, stop, driver)
 
-    def go_to_requested_filing_year(self, driver:object ,year_identifier: int):
+    def go_to_requested_filing_year(self, driver:object):
         search_button = driver.find_element(By.XPATH, '//*[@id="main-content"]/div/div[1]/ul/li[7]/a')
         search_button.click()
         time.sleep(2)
-        dropdown = driver.find_element(By.XPATH, f'//*[@id="FilingYear"]/option[{year_identifier}]')
+        dropdown = driver.find_element(By.XPATH, '//*[@id="FilingYear"]/option[last()]')
         dropdown.click()
         time.sleep(2)
         search_click = driver.find_element(By.XPATH, '//*[@id="search-members"]/form/div[4]/button[1]')
         search_click.click()
         time.sleep(3)
+        stop = driver.find_element(By.XPATH, '//*[@id="DataTables_Table_0_paginate"]/span/a[last()]')
+        time.sleep(2)
+        return int(stop.text)
 
     def find_table_information_for_page_range(self, start: int, stop: int, driver: object):
         for page in range(start, stop + 1):
