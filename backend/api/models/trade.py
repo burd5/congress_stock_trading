@@ -1,5 +1,5 @@
-import api.models as models
-from api.lib.orm import build_from_record
+import backend.api.models as models
+from backend.api.lib.orm import build_from_record
 
 class Trade(models.BaseClass):
     __table__ = 'trades'

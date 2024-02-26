@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 from settings import DATABASE, USER, PASSWORD
 import psycopg2
-import api.models as models
-from api.lib.orm import find_all, find
+import backend.api.models as models
+from backend.api.lib.orm import find_all, find
 
 def create_app(dbname, user, password):
     app = Flask(__name__)

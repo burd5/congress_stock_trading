@@ -1,6 +1,6 @@
-import api.models as models
-from api.lib.orm import build_from_record, build_from_records
-import api.models as models
+import backend.api.models as models
+from backend.api.lib.orm import build_from_record, build_from_records
+import backend.api.models as models
 
 class Stock(models.BaseClass):
     __table__ = 'stocks'

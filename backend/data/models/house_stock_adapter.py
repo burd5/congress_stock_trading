@@ -1,8 +1,8 @@
 import camelot
 from settings import USER, DATABASE
-from api.lib.db import cursor, add_record_to_database, check_record_existence
-from api.models.stock import Stock
-from api.models.politician import Politician
+from backend.api.lib.db import cursor, add_record_to_database, check_record_existence
+from backend.api.models.stock import Stock
+from backend.api.models.politician import Politician
 import re
 import traceback
 
@@ -31,7 +31,7 @@ class ReadHousePDF:
     def process_row_data(self, row: tuple, report: dict, table: object, politician_info: dict):
         if row._3 in ['S', 'P', 'SP', 'E']:
             formatted_row = self.coerce_row_data(row)
-            status = self.validate_data(report, table, formatted_row)
+            status = self.validate_data(report, formatted_row)
             if status: self.check_for_stock_and_politician_match_in_db(formatted_row, report, politician_info)
                 
     def check_for_stock_and_politician_match_in_db(self, formatted_row, report, politician_info):
@@ -92,8 +92,8 @@ class ReadHousePDF:
         stock_marker = re.search(r'\((.*?)\)', stock_description)
         return stock_marker.group(1) if stock_marker else None
 
-    def validate_data(self, report: dict, table: object, row: tuple):
-        if row[1] == '' or len(row[1]) > 2:
+    def validate_data(self, report: dict, row: tuple):
+        if row[1] not in ['Sold', 'Purchased', 'Exchanged']:
             print('Error with purchase or sold column', row[1])
             print(report['report_link'])
             return False
@@ -125,8 +125,18 @@ class ReadHousePDF:
         row_list = list(row)
         row_list.pop(-3)
         formatted_row = row_list[2:-1]
+        formatted_row[1] = self.convert_sale_purchase_letter(formatted_row[1])
         formatted_row[2] = self.convert_to_year_month_date(formatted_row[2])
         return formatted_row
+    
+    def convert_sale_purchase_letter(self, str:str):
+        match str:
+            case 'S':
+                return 'Sold'
+            case 'P':
+                return 'Purchased'
+            case 'E':
+                return 'Exchanged'
 
     def convert_to_year_month_date(self, date_str: str):
         date = date_str.split('/')

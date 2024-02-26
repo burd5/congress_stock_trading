@@ -1,5 +1,5 @@
-from api.models.politician import Politician
-from api.models.stock import Stock
+from backend.api.models.politician import Politician
+from backend.api.models.stock import Stock
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
 from settings import USER, DATABASE
-from api.lib.db import cursor, add_record_to_database, add_asset_record
+from backend.api.lib.db import cursor, add_record_to_database, add_asset_record
 soup = BeautifulSoup('html', 'lxml')
 
 class ReadTransactionTableData:
@@ -41,7 +41,7 @@ class ReadTransactionTableData:
 
     def process_table_data(self, driver: object, politician: Politician):
         try:
-            table_data = driver.find_element(By.XPATH, '//*[@id="content"]/div/div/section/div/div/table/tbody')
+            driver.find_element(By.XPATH, '//*[@id="content"]/div/div/section/div/div/table/tbody')
             rows = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='content']/div/div/section/div/div/table/tbody/tr")))
             for row in rows:
                 cols = row.find_elements(By.TAG_NAME,'td')

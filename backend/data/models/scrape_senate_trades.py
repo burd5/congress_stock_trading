@@ -38,7 +38,8 @@ class SenateScraper:
         search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select[2]/option[1]')
         search_button.click()
         time.sleep(2)
-        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[4]/a')
+        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[7]/a')
+        
         search_button.click()
         time.sleep(2)
         self.select_to_date(driver)
@@ -47,7 +48,7 @@ class SenateScraper:
         search_button = driver.find_element(By.XPATH, '//*[@id="toDate"]')
         search_button.click()
         time.sleep(2)
-        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[4]/a')
+        search_button = driver.find_element(By.CSS_SELECTOR, '.ui-state-default.ui-state-highlight')
         search_button.click()
         time.sleep(2)
         search_button = driver.find_element(By.XPATH, '//*[@id="searchForm"]/div/button')
@@ -78,4 +79,3 @@ class SenateScraper:
         href = anchor_tag.get_attribute('href')
         return {'name': name, 'report_link': href}
     
-

@@ -1,7 +1,7 @@
 import psycopg2
 from flask import g, current_app
 from settings import DATABASE, USER, TEST_DB
-from api.lib.orm import build_from_record
+from backend.api.lib.orm import build_from_record
 conn = psycopg2.connect(dbname=DATABASE, user=USER)
 cursor = conn.cursor()
 test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
