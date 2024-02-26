@@ -9,8 +9,8 @@ from backend.athena.migrations import create_db, crawl_dataset, display_schema
 # house_scraper = Scrape_Coerce_House_Records()
 # house_scraper.scrape()
 
-scraped_senate_reports = SenateScraper().initialize_webscrape()
-print(TransformSenateRecordsData().process_transactions(scraped_senate_reports))
+# scraped_senate_reports = SenateScraper().initialize_webscrape()
+# print(TransformSenateRecordsData().process_transactions(scraped_senate_reports))
 
 
 
