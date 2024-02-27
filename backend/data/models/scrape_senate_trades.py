@@ -8,8 +8,7 @@ soup = BeautifulSoup('html', 'lxml')
 
 
 class SenateScraper:
-    def __init__(self, page_number:int = 79):
-        self.page_number = page_number
+    def __init__(self):
         self.transaction_reports = []
     
     def initialize_webscrape(self):
@@ -35,11 +34,10 @@ class SenateScraper:
         search_button = driver.find_element(By.XPATH, '//*[@id="fromDate"]')
         search_button.click()
         time.sleep(2)
-        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select[2]/option[1]')
+        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select[1]/option[1]')
         search_button.click()
         time.sleep(2)
-        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[7]/a')
-        
+        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[2]/a')
         search_button.click()
         time.sleep(2)
         self.select_to_date(driver)
@@ -54,10 +52,12 @@ class SenateScraper:
         search_button = driver.find_element(By.XPATH, '//*[@id="searchForm"]/div/button')
         search_button.click()
         time.sleep(2)
-        self.find_table_information_for_page_range(driver)
+        find_last_number = driver.find_element(By.XPATH, '//*[@id="filedReports_paginate"]/span/a[last()]')
+        page_number = int(find_last_number.text) + 1
+        self.find_table_information_for_page_range(driver, page_number)
 
-    def find_table_information_for_page_range(self, driver: object):
-        for page in range(1, self.page_number):
+    def find_table_information_for_page_range(self, driver: object, page_number:int):
+        for page in range(1, page_number):
             rows = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='filedReports']/tbody/tr")))
             time.sleep(2)
             self.find_column_information_for_current_table(rows)

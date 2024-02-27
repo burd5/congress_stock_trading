@@ -10,7 +10,7 @@ from settings import USER, DATABASE
 from backend.api.lib.db import cursor, add_record_to_database, add_asset_record
 soup = BeautifulSoup('html', 'lxml')
 
-class ReadTransactionTableData:
+class TransformSenateRecordsData:
     def process_transactions(self, transactions: list):
         driver = self.bypass_agree_statement()
         for transaction in transactions:

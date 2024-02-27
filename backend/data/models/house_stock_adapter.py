@@ -137,6 +137,8 @@ class ReadHousePDF:
                 return 'Purchased'
             case 'E':
                 return 'Exchanged'
+            case 'SP':
+                return 'Sale (Partial)'
 
     def convert_to_year_month_date(self, date_str: str):
         date = date_str.split('/')
