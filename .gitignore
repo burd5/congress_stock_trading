@@ -3,3 +3,4 @@ backend/stocks_venv/
 storage/
 .vscode/
 __pycache__/
+.DS_Store
