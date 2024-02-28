@@ -2,4 +2,4 @@
 backend/stocks_venv/
 storage/
 .vscode/
-__pycache__
+__pycache__/
