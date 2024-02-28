@@ -11,7 +11,7 @@ def find_last_trade_id_in_aws():
         database=GLUE_DB)
     return df.last_transaction_id[0]
 
-def get_data(id):
+def get_data_from_local_postgres_db(id):
     query = f"""select * from trades where id > {id};"""
     df = pd.read_sql_query(query, con = conn)
     return df

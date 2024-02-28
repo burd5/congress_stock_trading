@@ -1,3 +1,5 @@
 .env
 backend/stocks_venv/
 storage/
+.vscode/
+__pycache__
