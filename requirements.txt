@@ -19,3 +19,4 @@ llama-index-embeddings-openai
 llama-index-readers-database
 llama-index-llms-openai
 prefect
+boto3
