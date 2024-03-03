@@ -1,9 +1,7 @@
 import awswrangler as wr
 from backend.api.lib.db import conn
-import sqlalchemy
 from settings import S3_PARTITIONED_PATH, GLUE_DB
 import pandas as pd
-# boto3.setup_default_session(region_name="us-west-2")
 
 def find_last_trade_id_in_aws():
     df = wr.athena.read_sql_query(
