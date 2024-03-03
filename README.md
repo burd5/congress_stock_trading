@@ -2,9 +2,13 @@
 
 <h1>Congress Trades Tracker</h1>
 
-<h2>How It's Made</h2>
+<h2>Pipeline</h2>
+<img src="">
 
-<h3>Tech Used:</h3>
+<h2>DB Model</h2>
+<img src="/images/db_model.png">
+
+<h2>Tech Used</h2>
     <ul>
         <li>Python</li>
         <li>AWS</li>
