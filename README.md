@@ -6,7 +6,7 @@
 <img src="">
 
 <h2>DB Model</h2>
-<img src="/images/db_model.png">
+<img src="./images/db_model.png">
 
 <h2>Tech Used</h2>
     <ul>
