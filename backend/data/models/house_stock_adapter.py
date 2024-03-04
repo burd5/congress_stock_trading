@@ -5,6 +5,7 @@ from backend.api.models.stock import Stock
 from backend.api.models.politician import Politician
 import re
 import traceback
+import datetime
 
 class ReadHousePDF:
     def __init__(self):
@@ -112,6 +113,18 @@ class ReadHousePDF:
         regex = re.compile("[0-9]{4}\-[0-9]{2}\-[0-9]{2}")
         match = re.match(regex, date)
         if not match:
+            return False
+        elif not self.validate_date_numbers(match[0]):
+            return False
+        return True
+    
+    def validate_date_numbers(self, date:str):
+        year, month, day = date.split('-')
+        if int(year) > datetime.date.today().year:
+            return False
+        elif int(month) > 12 or int(month) < 1:
+            return False
+        elif int(day) > 31 or int(day) < 1:
             return False
         return True
 

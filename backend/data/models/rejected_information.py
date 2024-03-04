@@ -12,7 +12,7 @@ class House_Records:
 
         scraped_reports = HouseScraper().initialize_webscrape()
         for col in columns:
-            results = ReadHousePDF().read_pdf_reports(scraped_reports, col)
+            results = ReadHousePDF().read_pdf_reports(scraped_reports[:2], col)
             [rejected_stock_pdfs.append(result) for result in results[0] if result not in rejected_stock_pdfs]
             [rejected_politicians.append(result) for result in results[1] if result not in rejected_politicians]
             [rejected_stock_markers.append(result) for result in results[2] if result not in rejected_stock_markers]
