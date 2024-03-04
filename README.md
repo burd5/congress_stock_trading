@@ -3,7 +3,7 @@
 <h1>Congress Trades Tracker</h1>
 
 <h2>Pipeline</h2>
-<img src="">
+<img src="./images/Congress Trades Pipeline Final.png">
 
 <h2>DB Model</h2>
 <img src="./images/db_model.png">
