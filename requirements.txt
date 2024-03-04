@@ -8,7 +8,7 @@ camelot-py[cv]
 camelot-py[plot]
 bs4
 lxml
-psycopg2
+psycopg2-binary
 python-dotenv
 opencv-python
 PyPDF2<3.0
