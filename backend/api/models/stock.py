@@ -1,23 +1,20 @@
 import backend.api.models as models
 from backend.api.lib.orm import build_from_record, build_from_records
 import backend.api.models as models
+from backend.api import db
+from sqlalchemy.orm import relationship
 
-class Stock(models.BaseClass):
-    __table__ = 'stocks'
+class Stock(db.Model):
+    __tablename__ = 'stocks'
     attributes = ['id', 'stock_marker', 'company_name', 'asset_type']
 
-    def politicians(self, cursor):
-        cursor.execute(f"""select distinct p.* from politicians p join trades t
-                                on p.id = t.politician_id
-                                where t.stock_id = %s;""", (self.id,))
-        records = cursor.fetchall()
-        return build_from_records(models.Politician, records)
+    id = db.Column(db.Integer, primary_key=True)
+    stock_marker = db.Column(db.String(150), nullable=False)
+    company_name = db.Column(db.String(150), nullable=False)
+    asset_type = db.Column(db.String(150), nullable=False)
 
-    def trades(self, cursor):
-        cursor.execute(f"""select * from trades
-                           where stock_id = %s;""", (self.id,))
-        records = cursor.fetchall()
-        return build_from_records(models.Trade, records)
+    trades = relationship('Trade', back_populates='stock', cascade='all, delete-orphan')
+    politicians = db.relationship('Politician', secondary='trades', overlaps='trades,stocks')
 
     @classmethod
     def find_by_stock_marker(cls, marker: str, cursor: object):

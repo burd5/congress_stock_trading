@@ -1,23 +1,21 @@
 import backend.api.models as models
 from backend.api.lib.orm import build_from_record, build_from_records
+from backend.api import db
+from sqlalchemy.orm import relationship
 
-class Politician(models.BaseClass):
-    __table__ = 'politicians'
+class Politician(db.Model):
+    __tablename__ = 'politicians'
     attributes = ['id', 'name', 'part_of_congress', 'state', 'political_party', 'office']
 
-    def stocks(self, cursor):
-        cursor.execute(f"""select s.* from stocks s join trades t
-                            on s.id = t.stock_id
-                            where t.politician_id = %s;""", (self.id,))
-        records = cursor.fetchall()
-        return build_from_records(models.Stock, records)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), unique=True, nullable=False)
+    part_of_congress = db.Column(db.String(80), nullable=False)
+    state = db.Column(db.String(150), nullable=False)
+    political_party = db.Column(db.String(80), nullable=False)
+    office = db.Column(db.String(30), nullable=False)
 
-    def trades(self, cursor):
-        cursor.execute(f"""select *
-                            from trades
-                            where politician_id = %s;""", (self.id,))
-        records = cursor.fetchall()
-        return build_from_records(models.Trade, records)
+    trades = relationship('Trade', back_populates='politician', cascade='all, delete-orphan')
+    stocks = db.relationship('Stock', secondary='trades', overlaps='trades')
 
     @classmethod
     def find_by_name_house(cls, name: str, cursor: object):

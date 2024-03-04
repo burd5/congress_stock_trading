@@ -1,28 +1,21 @@
 import backend.api.models as models
 from backend.api.lib.orm import build_from_record
+from backend.api import db
+from sqlalchemy.orm import relationship
 
-class Trade(models.BaseClass):
-    __table__ = 'trades'
+class Trade(db.Model):
+    __tablename__ = 'trades'
     attributes = ['id', 'stock_id', 'politician_id', 'purchased_or_sold', 'transaction_date', 'amount']
 
-    def stock(self, cursor):
-        cursor.execute("""select * from stocks where id = %s;""", (self.stock_id,))
-        record = cursor.fetchone()
-        return build_from_record(models.Stock, record)
+    id = db.Column(db.Integer, primary_key=True)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
+    politician_id = db.Column(db.Integer, db.ForeignKey('politicians.id'))
+    purchased_or_sold = db.Column(db.String(150), nullable=False)
+    transaction_date = db.Column(db.DateTime(100), nullable=False)
+    amount = db.Column(db.String(150), nullable=False)
 
-    def politician(self, cursor):
-        cursor.execute("""select * from politicians where id = %s;""", (self.politician_id,))
-        record = cursor.fetchone()
-        return build_from_record(models.Politician, record)
-
-    def to_json(self, cursor):
-        politician_name = self.politician(cursor).name 
-        stock_marker = self.stock(cursor).stock_marker 
-        return {'politician': politician_name, 
-                'stock': stock_marker, 
-                'purchased_or_sold': self.purchased_or_sold, 
-                'transaction_date': self.transaction_date, 
-                'amount': self.amount}
+    politician = relationship('Politician', back_populates='trades', overlaps='stocks,politicians')
+    stock = relationship('Stock', back_populates='trades', overlaps='politicians,stocks')
 
 
 

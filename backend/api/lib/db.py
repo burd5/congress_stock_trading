@@ -95,3 +95,9 @@ def close_db(e=None):
     db = g.pop("db", None)
     if db is not None:
         db.close()
+
+def to_dict(obj):
+        dict_ = {}
+        for key in obj.__mapper__.c.keys():
+            dict_[key] = getattr(obj, key)
+        return dict_
