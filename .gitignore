@@ -5,3 +5,4 @@ storage/
 __pycache__/
 .DS_Store
 .flaskenv
+dashboard/secrets.toml

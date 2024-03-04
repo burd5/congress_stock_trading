@@ -20,3 +20,6 @@ llama-index-readers-database
 llama-index-llms-openai
 prefect
 boto3
+streamlit
+s3fs
+st-files-connection
