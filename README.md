@@ -26,7 +26,7 @@
 
 <h2>Optimizations/To Do List</h2>
     <ul>
-        <li>Refactor SQL Alchemy into current API/ORM configuration</li>
+        <li><s>Refactor SQL Alchemy into current API/ORM configuration</s></li>
         <li>Adjust Senate scraper calendar dates to align with Prefect scraping schedule</li>
         <li>Additional tests for House and Senate adapters</li>
         <li>Integrate LLM (Hugging Face Model) into Streamlit dashboard</li>
