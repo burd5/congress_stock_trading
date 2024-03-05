@@ -1,6 +1,9 @@
-* Project Description Coming Soon *
-
+Project is in progress. Images and details may be outdated due to recent updates. *
+  
 <h1>Congress Trades Tracker</h1>
+<p>
+Congress Trades Tracker is a project that aims to make congressional stock trading more transparent. It utilizes an ELT pipeline to scrape, transform, and load data that can be accessed through an API, Streamlit dashboard, or front end website. 
+</p>
 
 <h2>Pipeline</h2>
 <img src="./images/Congress Trades Pipeline Final.png">
@@ -13,6 +16,7 @@
         <li>Python</li>
         <li>AWS</li>
         <li>Pandas</li>
+        <li>DBT</li>
         <li>Flask</li>
         <li>PostgreSQL</li>
         <li>Pytest</li>
