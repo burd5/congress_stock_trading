@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import urllib3
 import io
-from backend.api.lib.db import add_record_to_database, check_report_link_existence, add_report_record
+from backend.api.lib.db import add_record_to_house_trades, check_report_link_existence, add_report_record
 from settings import USER, DATABASE
 
 class ReadHousePDF:
@@ -35,7 +35,7 @@ class ReadHousePDF:
                     for index, row in pre_processed_table.iterrows():
                         table_data = [row[i] for i in range(1,7)]
                         table_data.insert(1, report['name'])
-                        add_record_to_database(table_data, USER, DATABASE)
+                        add_record_to_house_trades(table_data, USER, DATABASE)
                 except Exception as Error:
                     print(Error)
 

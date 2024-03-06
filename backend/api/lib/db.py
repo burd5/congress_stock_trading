@@ -18,12 +18,22 @@ test_cursor = test_conn.cursor()
 #     conn.commit()
 #     conn.close()
 
-def add_record_to_database(record: list, user: str, database: str):
+def add_record_to_house_trades(record: list, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
     cursor = conn.cursor()
-    statement = """INSERT INTO trades (owner, politician_name, stock_information, purchased_or_sold, transaction_date, report_date, amount)
+    statement = """INSERT INTO house_trades (owner, politician_name, stock_information, purchased_or_sold, transaction_date, report_date, amount)
                             VALUES(%s, %s, %s, %s, %s, %s, %s);"""
     # if not check_record_existence(record, user, database):
+    print(statement, record)
+    cursor.execute(statement, record)
+    conn.commit()
+    conn.close()
+
+def add_record_to_senate_trades(record: list, user: str, database: str):
+    conn = psycopg2.connect(user=user, database=database)
+    cursor = conn.cursor()
+    statement = """INSERT INTO senate_trades (politician_name, transaction_date, owner, stock_ticker, asset_name, asset_type, purchased_or_sold, amount, comment)
+                            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);"""
     print(statement, record)
     cursor.execute(statement, record)
     conn.commit()
