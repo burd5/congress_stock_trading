@@ -1,5 +1,5 @@
 import camelot
-from settings import USER, DATABASE
+                                                                                                                                                                                                                                                                                                                                                                
 from backend.api.lib.db import cursor, add_record_to_database, check_record_existence
 from backend.api.models.stock import Stock
 from backend.api.models.politician import Politician

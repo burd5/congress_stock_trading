@@ -7,16 +7,27 @@ cursor = conn.cursor()
 test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
 test_cursor = test_conn.cursor()
 
+# def add_record_to_database(record: list, user: str, database: str):
+#     conn = psycopg2.connect(user=user, database=database)
+#     cursor = conn.cursor()
+#     statement = """INSERT INTO trades (stock_id, politician_id, purchased_or_sold, transaction_date, amount)
+#                             VALUES(%s, %s, %s, %s, %s);"""
+#     # if not check_record_existence(record, user, database):
+#     print(statement, record)
+#     cursor.execute(statement, record)
+#     conn.commit()
+#     conn.close()
+
 def add_record_to_database(record: list, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
     cursor = conn.cursor()
-    statement = """INSERT INTO trades (stock_id, politician_id, purchased_or_sold, transaction_date, amount)
-                            VALUES(%s, %s, %s, %s, %s);"""
-    if not check_record_existence(record, user, database):
-        print(statement, record)
-        cursor.execute(statement, record)
-        conn.commit()
-        conn.close()
+    statement = """INSERT INTO trades (owner, politician_name, stock_information, purchased_or_sold, transaction_date, report_date, amount)
+                            VALUES(%s, %s, %s, %s, %s, %s, %s);"""
+    # if not check_record_existence(record, user, database):
+    print(statement, record)
+    cursor.execute(statement, record)
+    conn.commit()
+    conn.close()
 
 def add_asset_record(record: list, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
@@ -28,6 +39,15 @@ def add_asset_record(record: list, user: str, database: str):
         cursor.execute(statement, record)
         conn.commit()
         conn.close()
+
+def add_report_record(record: list, user: str, database: str):
+    conn = psycopg2.connect(user=user, database=database)
+    cursor = conn.cursor()
+    statement = """INSERT INTO report_links (link)
+                            VALUES(%s);"""
+    cursor.execute(statement, (record,))
+    conn.commit()
+    conn.close()
 
 def check_asset_existence(record: dict, user: str, database: str):
     conn = psycopg2.connect(user=user, database=database)
@@ -56,6 +76,19 @@ def check_record_existence(record: dict, user: str, database: str):
                             AND amount = %s
                         );"""
     cursor.execute(check_statement, record)
+    exists = cursor.fetchone()[0]
+    conn.close()
+    return exists
+
+def check_report_link_existence(link:str, user: str, database: str):
+    conn = psycopg2.connect(user=user, database=database)
+    cursor = conn.cursor()
+    
+    check_statement = """SELECT EXISTS(
+                            SELECT 1 FROM report_links
+                            WHERE link = %s
+                        );"""
+    cursor.execute(check_statement, (link,))
     exists = cursor.fetchone()[0]
     conn.close()
     return exists
