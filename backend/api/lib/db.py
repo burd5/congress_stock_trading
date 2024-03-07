@@ -23,7 +23,6 @@ def add_record_to_house_trades(record: list, user: str, database: str):
     cursor = conn.cursor()
     statement = """INSERT INTO house_trades (owner, politician_name, stock_information, purchased_or_sold, transaction_date, report_date, amount)
                             VALUES(%s, %s, %s, %s, %s, %s, %s);"""
-    # if not check_record_existence(record, user, database):
     print(statement, record)
     cursor.execute(statement, record)
     conn.commit()

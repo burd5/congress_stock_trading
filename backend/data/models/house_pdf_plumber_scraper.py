@@ -51,6 +51,7 @@ class ReadHousePDF:
         exists = check_report_link_existence(report['report_link'], user=USER, database=DATABASE)
         if exists: return False
         add_report_record(report['report_link'], user=USER, database=DATABASE)
+        return True
 
     def pre_process_table_data(self, page):
         settings = page.debug_tablefinder()

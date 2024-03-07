@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS trades;
+DROP TABLE IF EXISTS house_trades;
+DROP TABLE IF EXISTS senate_trades;
 DROP TABLE IF EXISTS report_links;
 
 CREATE TABLE IF NOT EXISTS house_trades(

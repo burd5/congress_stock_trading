@@ -10,23 +10,23 @@ class HouseScraper:
     def __init__(self):
         self.transaction_reports = []
 
-    def initialize_webscrape(self):
+    def initialize_webscrape(self, year_identifier:str = 'last()'):
         driver = webdriver.Chrome()
-        self.go_to_search_table(driver)
+        self.go_to_search_table(driver, year_identifier)
         driver.quit()
         return self.transaction_reports
 
-    def go_to_search_table(self,driver):
+    def go_to_search_table(self, driver, year_identifier:str):
         driver.get('https://disclosures-clerk.house.gov/FinancialDisclosure')
-        stop = self.go_to_requested_filing_year(driver)
+        stop = self.go_to_requested_filing_year(driver, year_identifier)
         time.sleep(3)
         self.find_table_information_for_page_range(1, stop, driver)
 
-    def go_to_requested_filing_year(self, driver:object):
+    def go_to_requested_filing_year(self, driver:object, year_identifier:str):
         search_button = driver.find_element(By.XPATH, '//*[@id="main-content"]/div/div[1]/ul/li[7]/a')
         search_button.click()
         time.sleep(2)
-        dropdown = driver.find_element(By.XPATH, '//*[@id="FilingYear"]/option[last()]')
+        dropdown = driver.find_element(By.XPATH, f'//*[@id="FilingYear"]/option[{year_identifier}]')
         dropdown.click()
         time.sleep(2)
         search_click = driver.find_element(By.XPATH, '//*[@id="search-members"]/form/div[4]/button[1]')

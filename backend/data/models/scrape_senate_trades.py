@@ -34,12 +34,16 @@ class SenateScraper:
         search_button = driver.find_element(By.XPATH, '//*[@id="fromDate"]')
         search_button.click()
         time.sleep(2)
+        # //*[@id="ui-datepicker-div"]/div/div/select[1]/option[1]
+        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select[2]/option[1]')
+        search_button.click()
+        time.sleep(2)
+        # //*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[2]/a
         search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select[1]/option[1]')
         search_button.click()
         time.sleep(2)
-        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[2]/a')
+        search_button = driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody/tr[1]/td[4]/a')
         search_button.click()
-        time.sleep(2)
         self.select_to_date(driver)
 
     def select_to_date(self, driver: object):
