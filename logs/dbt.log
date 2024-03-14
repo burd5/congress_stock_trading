@@ -1,0 +1,76 @@
+[0m19:49:23.457741 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1058a75d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10591ce90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10591d5d0>]}
+
+
+============================== 19:49:23.466311 | 64e1f9bf-3b64-47ef-a471-fe12ab493602 ==============================
+[0m19:49:23.466311 [info ] [MainThread]: Running with dbt=1.7.9
+[0m19:49:23.467344 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'profiles_dir': '/Users/austinburdette/.dbt', 'log_path': 'logs', 'debug': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt init trades_dbt', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m19:49:23.469062 [debug] [MainThread]: Starter project path: /Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/include/starter_project
+[0m19:49:23.482639 [info ] [MainThread]: 
+Your new dbt project "trades_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m19:49:23.483809 [info ] [MainThread]: Setting up your profile.
+[0m19:49:42.896337 [error] [MainThread]: Encountered an error:
+
+[0m19:49:42.905357 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 91, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/cli/main.py", line 515, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/task/init.py", line 344, in run
+    self.setup_profile(profile_name)
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/task/init.py", line 263, in setup_profile
+    adapter = self.ask_for_adapter_choice()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/dbt/task/init.py", line 244, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/lib/python3.11/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m19:49:42.968072 [debug] [MainThread]: Resource report: {"command_name": "init", "command_wall_clock_time": 19.635132, "process_user_time": 2.86852, "process_kernel_time": 0.53065, "process_mem_max_rss": "99446784", "command_success": false, "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m19:49:42.969429 [debug] [MainThread]: Command `dbt init` failed at 19:49:42.969059 after 19.64 seconds
+[0m19:49:42.970350 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1059002d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105882510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10132ac90>]}
+[0m19:49:42.971084 [debug] [MainThread]: Flushing usage events
+[0m09:40:06.938651 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f51f0d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f57cf90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f57d690>]}
+
+
+============================== 09:40:06.947795 | 361ff865-06d6-4a81-b6af-e2aa336e628d ==============================
+[0m09:40:06.947795 [info ] [MainThread]: Running with dbt=1.7.9
+[0m09:40:06.948983 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/austinburdette/.dbt', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'version_check': 'True', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'invocation_command': 'dbt debug', 'introspect': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m09:40:06.950085 [info ] [MainThread]: dbt version: 1.7.9
+[0m09:40:06.950670 [info ] [MainThread]: python version: 3.11.2
+[0m09:40:06.951236 [info ] [MainThread]: python path: /Users/austinburdette/Documents/Projects/congress_stock_trading/backend/stocks_venv/bin/python3.11
+[0m09:40:06.951774 [info ] [MainThread]: os info: macOS-12.3.1-x86_64-i386-64bit
+[0m09:40:07.198766 [info ] [MainThread]: Using profiles dir at /Users/austinburdette/.dbt
+[0m09:40:07.199547 [info ] [MainThread]: Using profiles.yml file at /Users/austinburdette/.dbt/profiles.yml
+[0m09:40:07.200091 [info ] [MainThread]: Using dbt_project.yml file at /Users/austinburdette/Documents/Projects/congress_stock_trading/dbt_project.yml
+[0m09:40:07.200748 [error] [MainThread]: Encountered an error:
+Internal Error
+  Profile should not be None if loading profile completed
+[0m09:40:07.245920 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_wall_clock_time": 0.48291242, "process_user_time": 3.175207, "process_kernel_time": 0.647859, "process_mem_max_rss": "99545088", "command_success": false, "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m09:40:07.246930 [debug] [MainThread]: Command `dbt debug` failed at 09:40:07.246690 after 0.48 seconds
+[0m09:40:07.247573 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f4e6650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f57f3d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10af0c750>]}
+[0m09:40:07.248235 [debug] [MainThread]: Flushing usage events
+[0m09:40:07.271559 [debug] [MainThread]: Error sending anonymous usage statistics. Disabling tracking for this execution. If you wish to permanently disable tracking, see: https://docs.getdbt.com/reference/global-configs#send-anonymous-usage-stats.

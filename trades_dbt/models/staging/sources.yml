@@ -1,0 +1,8 @@
+version: 2
+sources:
+  - name: postgres
+    database: congress_trades
+    schema: public
+    tables:
+      - name: house_trades
+      - name: senate_trades
