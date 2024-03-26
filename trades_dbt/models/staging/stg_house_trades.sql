@@ -48,6 +48,18 @@ edited_amounts as (
     from house_trades
 ),
 
+split_on_filing as (
+    select id,
+           SPLIT_PART(UPPER(stock_information), 'FILING', 1) as stock_information
+    from house_trades
+),
+
+edited_stock_information as (
+    select id,
+           SPLIT_PART(stock_information, E'\n', 1) || ' ' || SPLIT_PART(stock_information, E'\n', 2) as stock_information
+    from split_on_filing
+),
+
 modify_purchased_or_sold as (
     select id,
            CASE WHEN purchased_or_sold = 'S' THEN 'Sale'
@@ -63,7 +75,7 @@ combine_edited_columns as (
           mod.id as id,
           UPPER(owner) as owner,
           fl.edited_politician_name as politician_name,
-          stock_information,
+          es.stock_information,
           mod.purchased_or_sold as purchased_or_sold,
           etd.transaction_date as transaction_date,
           ea.amount
@@ -71,7 +83,8 @@ combine_edited_columns as (
               on fl.id = mod.id join house_trades 
               on house_trades.id = mod.id join edited_transaction_dates etd
               on mod.id = etd.id join edited_amounts ea 
-              on etd.id = ea.id
+              on etd.id = ea.id join edited_stock_information es 
+              on ea.id = es.id
 )
 
 select * from combine_edited_columns
