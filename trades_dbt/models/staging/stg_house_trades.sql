@@ -56,6 +56,7 @@ split_on_filing as (
 
 edited_stock_information as (
     select id,
+           (REGEXP_MATCHES(stock_information, '\(([a-zA-Z]+)\)'))[1] as stock_ticker,
            SPLIT_PART(stock_information, E'\n', 1) || ' ' || SPLIT_PART(stock_information, E'\n', 2) as stock_information
     from split_on_filing
 ),
@@ -75,6 +76,7 @@ combine_edited_columns as (
           mod.id as id,
           UPPER(owner) as owner,
           fl.edited_politician_name as politician_name,
+          es.stock_ticker as stock_ticker,
           es.stock_information,
           mod.purchased_or_sold as purchased_or_sold,
           etd.transaction_date as transaction_date,
