@@ -6,7 +6,7 @@ Congress Trades Tracker is a project that aims to make congressional stock tradi
 </p>
 
 <h2>Pipeline</h2>
-<img src="./images/Congress Trades Pipeline Final.png">
+<img src="./images/Congress Trades Pipeline AWS.png">
 
 <h2>DB Model</h2>
 <img src="./images/db_model.png">
