@@ -5,13 +5,18 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
 soup = BeautifulSoup('html', 'lxml')
+options = webdriver.ChromeOptions()
+options.add_argument('--no-sandbox')
+options.add_argument('--window-size=1920,1080')
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
 
 class HouseScraper:
     def __init__(self):
         self.transaction_reports = []
 
     def initialize_webscrape(self, year_identifier:str = 'last()'):
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=options)
         self.go_to_search_table(driver, year_identifier)
         driver.quit()
         return self.transaction_reports
@@ -19,28 +24,28 @@ class HouseScraper:
     def go_to_search_table(self, driver, year_identifier:str):
         driver.get('https://disclosures-clerk.house.gov/FinancialDisclosure')
         stop = self.go_to_requested_filing_year(driver, year_identifier)
-        time.sleep(3)
+        time.sleep(2)
         self.find_table_information_for_page_range(1, stop, driver)
 
     def go_to_requested_filing_year(self, driver:object, year_identifier:str):
         search_button = driver.find_element(By.XPATH, '//*[@id="main-content"]/div/div[1]/ul/li[7]/a')
         search_button.click()
-        time.sleep(2)
+        time.sleep(1)
         dropdown = driver.find_element(By.XPATH, f'//*[@id="FilingYear"]/option[{year_identifier}]')
         dropdown.click()
-        time.sleep(2)
+        time.sleep(1)
         search_click = driver.find_element(By.XPATH, '//*[@id="search-members"]/form/div[4]/button[1]')
         search_click.click()
-        time.sleep(3)
+        time.sleep(1)
         stop = driver.find_element(By.XPATH, '//*[@id="DataTables_Table_0_paginate"]/span/a[last()]')
-        time.sleep(2)
+        time.sleep(1)
         return int(stop.text)
 
     def find_table_information_for_page_range(self, start: int, stop: int, driver: object):
         for page in range(start, stop + 1):
             element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//a[text()={page}]")))
             element.click()
-            time.sleep(2)
+            time.sleep(.2)
             rows = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH, "//tbody/tr"))) 
             self.find_column_information_for_current_table(rows)
     

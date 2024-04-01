@@ -1,25 +1,16 @@
 import psycopg2
 from flask import g, current_app
-from settings import DATABASE, USER, TEST_DB
+from settings import DATABASE, SUPA_USER, TEST_DB, HOST, SUPA_PASSWORD, USER
 from backend.api.lib.orm import build_from_record
-conn = psycopg2.connect(dbname=DATABASE, user=USER)
+
+conn_string = f"host={HOST} port=5432 dbname={DATABASE} user={SUPA_USER} password={SUPA_PASSWORD} sslmode=require"
+conn = psycopg2.connect(conn_string)
 cursor = conn.cursor()
-test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
-test_cursor = test_conn.cursor()
+# test_conn = psycopg2.connect(dbname=TEST_DB, user=USER)
+# test_cursor = test_conn.cursor()
 
-# def add_record_to_database(record: list, user: str, database: str):
-#     conn = psycopg2.connect(user=user, database=database)
-#     cursor = conn.cursor()
-#     statement = """INSERT INTO trades (stock_id, politician_id, purchased_or_sold, transaction_date, amount)
-#                             VALUES(%s, %s, %s, %s, %s);"""
-#     # if not check_record_existence(record, user, database):
-#     print(statement, record)
-#     cursor.execute(statement, record)
-#     conn.commit()
-#     conn.close()
-
-def add_record_to_house_trades(record: list, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def add_record_to_house_trades(record: list):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     statement = """INSERT INTO house_trades (owner, politician_name, stock_information, purchased_or_sold, transaction_date, report_date, amount)
                             VALUES(%s, %s, %s, %s, %s, %s, %s);"""
@@ -28,8 +19,8 @@ def add_record_to_house_trades(record: list, user: str, database: str):
     conn.commit()
     conn.close()
 
-def add_record_to_senate_trades(record: list, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def add_record_to_senate_trades(record: list):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     statement = """INSERT INTO senate_trades (politician_name, transaction_date, owner, stock_ticker, asset_name, asset_type, purchased_or_sold, amount, comment)
                             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);"""
@@ -38,19 +29,19 @@ def add_record_to_senate_trades(record: list, user: str, database: str):
     conn.commit()
     conn.close()
 
-def add_asset_record(record: list, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def add_asset_record(record: list):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     statement = """INSERT INTO stocks (company_name, asset_type)
                             VALUES(%s, %s);"""
-    if not check_asset_existence(record, user, database):
+    if not check_asset_existence(record):
         print(statement, record)
         cursor.execute(statement, record)
         conn.commit()
         conn.close()
 
-def add_report_record(record: list, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def add_report_record(record: list):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     statement = """INSERT INTO report_links (link)
                             VALUES(%s);"""
@@ -58,10 +49,9 @@ def add_report_record(record: list, user: str, database: str):
     conn.commit()
     conn.close()
 
-def check_asset_existence(record: dict, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def check_asset_existence(record: dict):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
-    
     check_statement = """SELECT EXISTS(
                             SELECT 1 FROM stocks
                             WHERE company_name = %s 
@@ -72,25 +62,8 @@ def check_asset_existence(record: dict, user: str, database: str):
     conn.close()
     return exists
 
-def check_record_existence(record: dict, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
-    cursor = conn.cursor()
-    
-    check_statement = """SELECT EXISTS(
-                            SELECT 1 FROM trades
-                            WHERE stock_id = %s 
-                            AND politician_id = %s
-                            AND purchased_or_sold = %s
-                            AND transaction_date = %s 
-                            AND amount = %s
-                        );"""
-    cursor.execute(check_statement, record)
-    exists = cursor.fetchone()[0]
-    conn.close()
-    return exists
-
-def check_report_link_existence(link:str, user: str, database: str):
-    conn = psycopg2.connect(user=user, database=database)
+def check_report_link_existence(link:str):
+    conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     
     check_statement = """SELECT EXISTS(

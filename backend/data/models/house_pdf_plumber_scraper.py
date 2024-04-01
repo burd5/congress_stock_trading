@@ -1,10 +1,8 @@
 import pdfplumber
 import pandas as pd
-import os
 import urllib3
 import io
 from backend.api.lib.db import add_record_to_house_trades, check_report_link_existence, add_report_record
-from settings import USER, DATABASE
 
 class ReadHousePDF:
     def coerce_purchase_sold_row(self, column):
@@ -32,10 +30,12 @@ class ReadHousePDF:
             for page in pages:
                 pre_processed_table = self.pre_process_table_data(page)
                 try:
+                    all_row_data = []
                     for index, row in pre_processed_table.iterrows():
                         table_data = [row[i] for i in range(1,7)]
                         table_data.insert(1, report['name'])
-                        add_record_to_house_trades(table_data, USER, DATABASE)
+                        all_row_data.append(table_data)
+                        add_record_to_house_trades(table_data)
                 except Exception as Error:
                     print(Error)
 
@@ -48,9 +48,9 @@ class ReadHousePDF:
         return pages
     
     def verify_new_report(self, report):
-        exists = check_report_link_existence(report['report_link'], user=USER, database=DATABASE)
+        exists = check_report_link_existence(report['report_link'])
         if exists: return False
-        add_report_record(report['report_link'], user=USER, database=DATABASE)
+        add_report_record(report['report_link'])
         return True
 
     def pre_process_table_data(self, page):

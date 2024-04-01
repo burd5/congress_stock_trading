@@ -74,18 +74,17 @@ modify_purchased_or_sold as (
 combine_edited_columns as (
     select 
           mod.id as id,
-          UPPER(owner) as owner,
           fl.edited_politician_name as politician_name,
           es.stock_ticker as stock_ticker,
           es.stock_information,
           mod.purchased_or_sold as purchased_or_sold,
           etd.transaction_date as transaction_date,
           ea.amount
-    from first_and_last_only fl join modify_purchased_or_sold mod
-              on fl.id = mod.id join house_trades 
-              on house_trades.id = mod.id join edited_transaction_dates etd
-              on mod.id = etd.id join edited_amounts ea 
-              on etd.id = ea.id join edited_stock_information es 
+    from first_and_last_only fl left join modify_purchased_or_sold mod
+              on fl.id = mod.id left join house_trades 
+              on house_trades.id = mod.id left join edited_transaction_dates etd
+              on mod.id = etd.id left join edited_amounts ea 
+              on etd.id = ea.id left join edited_stock_information es 
               on ea.id = es.id
 )
 

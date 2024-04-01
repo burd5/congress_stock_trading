@@ -5,7 +5,6 @@ with senate_trades as (
 asset_and_ticker_name_mod as (
     select
         id,
-        owner,
         politician_name,
         SPLIT_PART(stock_ticker, E'\n', 1) as stock_ticker,
         SPLIT_PART(asset_name, E'\n', 1) AS stock_information,
