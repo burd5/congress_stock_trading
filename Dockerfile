@@ -19,7 +19,7 @@ ENV DISPLAY=:99
 
 COPY ./backend ./backend
 COPY .env ./
-COPY console.py ./
+COPY flow.py ./
 COPY settings.py ./
 
-CMD ["python3", "console.py"]
+CMD ["python3", "flow.py"]
