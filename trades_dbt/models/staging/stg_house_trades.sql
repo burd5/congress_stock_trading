@@ -1,5 +1,5 @@
 with house_trades as (
-    select * from {{ source('postgres', 'house_trades') }}
+    select * from {{ source('congress_trades', 'house_trades') }}
 ),
 
 remove_title as (

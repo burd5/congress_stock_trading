@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 .flaskenv
 dashboard/secrets.toml
+trades_dbt/dbt_profiles

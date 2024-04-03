@@ -3,9 +3,9 @@ pandas
 flask
 selenium
 pytest
-camelot-py
-camelot-py[cv]
-camelot-py[plot]
+# camelot-py
+# camelot-py[cv]
+# camelot-py[plot]
 bs4
 lxml
 psycopg2-binary
@@ -16,10 +16,5 @@ datetime
 awswrangler
 SQLAlchemy
 Flask-SQLAlchemy
-prefect
-boto3
-streamlit
-s3fs
-st-files-connection
 pdfplumber
 dbt-postgres

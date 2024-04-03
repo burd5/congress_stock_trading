@@ -12,14 +12,18 @@ RUN apt-get update \
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 
+ENV DISPLAY=:99
+
 COPY requirements.txt ./
 RUN pip3 install -r requirements.txt
 
-ENV DISPLAY=:99
-
 COPY ./backend ./backend
 COPY .env ./
-COPY flow.py ./
 COPY settings.py ./
+COPY console.py ./
+COPY trades_dbt ./trades_dbt
+COPY entrypoint.sh ./
 
-CMD ["python3", "flow.py"]
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -1,5 +1,5 @@
 with senate_trades as (
-    select * from {{ source('postgres', 'senate_trades') }}
+    select * from {{ source('congress_trades', 'senate_trades') }}
 ),
 
 asset_and_ticker_name_mod as (
