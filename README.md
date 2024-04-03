@@ -9,7 +9,7 @@ Congress Trades Tracker is a project that aims to make congressional stock tradi
 
 <h2>Pipeline</h2>
 <img src="./images/Congress Trades Pipeline Fargate.png">
-<p><a href="https://efdsearch.senate.gov/search/">Senate</a> and <a href="https://disclosures-clerk.house.gov/FinancialDisclosure">House</span> trades are stored on separate websites, with the House trades being much harder to extract given that the trade tables are stored on PDF documents. Separate Python scripts use Selenium and Beauitful Soup to scrape, transform (lightly), and write records to a Supabase DB. The records are then transformed with DBT to create integration and mart layers. The entire ELT process is Dockerized and run on a weekly schedule using AWS ECR, ECS, Fargate, and EventBridge.</p>
+<p><a href="https://efdsearch.senate.gov/search/">Senate</a> and <a href="https://disclosures-clerk.house.gov/FinancialDisclosure">House</a> trades are stored on separate websites, with the House trades being much harder to extract given that the trade tables are stored on PDF documents. Separate Python scripts use Selenium and Beauitful Soup to scrape, transform (lightly), and write records to a Supabase DB. The records are then transformed with DBT to create integration and mart layers. The entire ELT process is Dockerized and run on a weekly schedule using AWS ECR, ECS, Fargate, and EventBridge.</p>
 
 <h2>DB Model</h2>
 <img src="./images/model_final.png">
