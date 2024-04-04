@@ -5,6 +5,7 @@ import io
 from backend.api.lib.db import add_record_to_house_trades, check_report_link_existence, add_report_record
 
 class ReadHousePDF:
+# split purchase/sold row on newline and keep first line
     def coerce_purchase_sold_row(self, column):
         try:
             value = column.split('\n')[0]
@@ -12,6 +13,7 @@ class ReadHousePDF:
         except:
             return column
 
+# minor data transformations before being added to database
     def transform_raw_table_data(self, table):
         try:
             df = pd.DataFrame(table)
@@ -23,6 +25,7 @@ class ReadHousePDF:
         except Exception as Error:
             print(Error)
 
+# proccess and coerce raw pdf data before adding record to database
     def read_pdfs(self, reports):
         for report in reports:
             if not self.verify_new_report(report): continue
@@ -39,6 +42,7 @@ class ReadHousePDF:
                 except Exception as Error:
                     print(Error)
 
+# find the number of pages in the pdf document 
     def extract_pdf_pages(self, report):
         http = urllib3.PoolManager()
         temp = io.BytesIO()
@@ -47,12 +51,14 @@ class ReadHousePDF:
         pages = pdf.pages
         return pages
     
+# check to see if report has already been processed, if so skip   
     def verify_new_report(self, report):
         exists = check_report_link_existence(report['report_link'])
         if exists: return False
         add_report_record(report['report_link'])
         return True
 
+# utilize pdf plumber to find column boundaries of table 
     def pre_process_table_data(self, page):
         settings = page.debug_tablefinder()
         col_lines = [line[0] for line in settings.__dict__['cells']]

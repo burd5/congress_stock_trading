@@ -24,17 +24,23 @@ Congress Trades Tracker is a project that aims to make congressional stock tradi
         <li>Selenium</li>
         <li>Beautiful Soup</li>
         <li>PyPDF</li>
-        <li>Camelot</li>
-        <li>Streamlit</li>
+        <li>React</li>
     </ul>
 
 <h2>Optimizations/To Do List</h2>
     <ul>
         <li><s>Refactor SQL Alchemy into current API/ORM configuration</s></li>
+        <li>Integrate trade tables in DBT and format stock/politician tables</li>
+        <li>Add React Frontend</li>
+        <li>Host Flask API on Cloud</li>
         <li>Adjust Senate scraper calendar dates to align with Prefect scraping schedule</li>
         <li>Additional tests for House and Senate adapters</li>
-        <li>Integrate LLM (Hugging Face Model) into Streamlit dashboard</li>
-        <li>Add all PDF links for House trade reports to database</li>
+        <li><s>Integrate LLM (Hugging Face Model) into Streamlit dashboard</s>REVISE</li>
+        <li><s>Add all PDF links for House trade reports to database</s></li>
     </ul>
 
 <h2>Lessons Learned</h2>
+    <ul>
+        <li>Extracting table data from PDFs can be really hard</li>
+        <li>Data Integrity is crucial to limiting edge cases</li>
+    </ul>
