@@ -14,8 +14,8 @@ class Politician(db.Model):
     political_party = db.Column(db.String(80), nullable=False)
     office = db.Column(db.String(30), nullable=False)
 
-    trades = relationship('Trade', back_populates='politician', cascade='all, delete-orphan')
-    stocks = db.relationship('Stock', secondary='trades', overlaps='trades')
+    # trades = relationship('Trade', back_populates='politician', cascade='all, delete-orphan')
+    # stocks = db.relationship('Stock', secondary='trades', overlaps='trades')
 
     @classmethod
     def find_by_name_house(cls, name: str, cursor: object):

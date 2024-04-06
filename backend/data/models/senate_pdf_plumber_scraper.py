@@ -40,7 +40,8 @@ class TransformSenateRecordsData:
     def parse_politician_name(self, name:str):
         name_split = name.split(' ')
         if len(name_split) > 2:
-            full_name = ' '.join([name_split[0], name_split[-1]])
+            names = [name.replace(',', '') for name in name_split if name not in ['Jr', 'Jr.']]
+            full_name = ' '.join([names[0], names[-1]])
             return full_name
         return name
 

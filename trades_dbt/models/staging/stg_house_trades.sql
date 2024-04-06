@@ -35,6 +35,7 @@ first_and_last_only as (
             transaction_date,
             amount
     from remove_title
+    where transaction_date != '' 
 ),
 
 edited_transaction_dates as (
@@ -45,6 +46,7 @@ edited_transaction_dates as (
           SUBSTRING(transaction_date FROM '^\d{1,2}/\d{1,2}/\d{4}') as transaction_date,
           amount
     from first_and_last_only
+    where TO_DATE(transaction_date, 'MM-DD-YYYY') <= CURRENT_DATE
 ),
 
 edited_amounts as (
@@ -54,8 +56,8 @@ edited_amounts as (
            purchased_or_sold,
            transaction_date,
            CASE 
+                WHEN SPLIT_PART(amount, E'\n', 1) IN ('$15,001 -', '$50,001 -', '$100,001 -', '$250,001 -', '$500,001 -', '$25,000,001 -', '$1,000,001 -', '$5,000,001 -') THEN SPLIT_PART(amount, E'\n', 1) || ' ' || SPLIT_PART(amount, E'\n', 2)
                 WHEN SPLIT_PART(amount, E'\n', 1) LIKE '%DC%' THEN SPLIT_PART(amount, E'\n', 2)
-                WHEN SPLIT_PART(amount, E'\n', 1) IN ('$25,000,001 -', '$1,000,001 -', '$5,000,001 -') THEN SPLIT_PART(amount, E'\n', 1) || ' ' || SPLIT_PART(amount, E'\n', 2)
             ELSE
                 SPLIT_PART(amount, E'\n', 1)
     END AS amount
@@ -68,14 +70,13 @@ split_on_filing as (
            SPLIT_PART(UPPER(stock_information), 'FILING', 1) as stock_information,
            purchased_or_sold,
            transaction_date,
-           amount
+           CASE WHEN amount LIKE'$1,001 -' THEN '$1,0001 - $5,000' ELSE amount END as amount
     from edited_amounts
 ),
 
 edited_stock_information as (
     select id,
            politician_name,
-        --    (REGEXP_MATCHES(stock_information, '\(([a-zA-Z]+)\)'))[1] as stock_ticker,
            CASE 
                WHEN POSITION('(' IN stock_information) > 0 AND POSITION(')' IN stock_information) > 0 THEN
                    SUBSTRING(stock_information, POSITION('(' IN stock_information) + 1, POSITION(')' IN stock_information) - POSITION('(' IN stock_information) - 1)

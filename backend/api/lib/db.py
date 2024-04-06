@@ -1,7 +1,9 @@
 import psycopg2
 from flask import g, current_app
-from settings import DATABASE, SUPA_USER, TEST_DB, HOST, SUPA_PASSWORD, USER
+from settings import DATABASE, SUPA_USER, TEST_DB, HOST, SUPA_PASSWORD, SUPA_CONN_URL, SUPA_KEY
 from backend.api.lib.orm import build_from_record
+from supabase import create_client
+from supabase.lib.client_options import ClientOptions
 
 conn_string = f"host={HOST} port=5432 dbname={DATABASE} user={SUPA_USER} password={SUPA_PASSWORD} sslmode=require"
 conn = psycopg2.connect(conn_string)
@@ -116,3 +118,11 @@ def to_dict(obj):
         for key in obj.__mapper__.c.keys():
             dict_[key] = getattr(obj, key)
         return dict_
+
+def create_supabase_connection(schema):
+    supabase_url = SUPA_CONN_URL
+    supabase_key = SUPA_KEY
+    opts = ClientOptions().replace(schema=schema)
+    supabase = create_client(supabase_url, supabase_key, options=opts)
+    
+    return supabase

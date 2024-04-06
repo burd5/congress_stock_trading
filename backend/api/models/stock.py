@@ -13,8 +13,8 @@ class Stock(db.Model):
     company_name = db.Column(db.String(150), nullable=False)
     asset_type = db.Column(db.String(150), nullable=False)
 
-    trades = relationship('Trade', back_populates='stock', cascade='all, delete-orphan')
-    politicians = db.relationship('Politician', secondary='trades', overlaps='trades,stocks')
+    # trades = relationship('Trade', back_populates='stock', cascade='all, delete-orphan')
+    # politicians = db.relationship('Politician', secondary='trades', overlaps='trades,stocks')
 
     @classmethod
     def find_by_stock_marker(cls, marker: str, cursor: object):

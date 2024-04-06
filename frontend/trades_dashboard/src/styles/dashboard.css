@@ -1,0 +1,98 @@
+/* dashboard.css */
+body {
+    background-color: #ffffff;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dashboard {
+    margin: 0 auto;
+    max-width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #000000;
+  }
+  
+  .table th {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination li {
+    padding: 5px;
+  }
+  
+  .pagination li button {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .pagination li button:hover {
+    background-color: #888888;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .table-container {
+    width: 50%;
+    height: 50%;
+    position: relative;
+  }
+  
+  /* dashboard.css */
+
+/* dashboard.css */
+
+.table-container {
+  position: relative; /* Set position to relative */
+}
+
+.loader {
+  position: absolute; /* Set position to absolute */
+  top: 50%; /* Center the loader vertically */
+  left: 50%; /* Center the loader horizontally */
+  transform: translate(-50%, -50%); /* Center the loader both vertically and horizontally */
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+  

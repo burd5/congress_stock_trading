@@ -2,8 +2,10 @@ from backend.api import create_app, db
 from flask import jsonify
 from backend.api.models import Trade, Stock, Politician
 from backend.api.lib.db import to_dict
+from flask_cors import CORS
 
 app = create_app()
+CORS(app)
 
 @app.route('/')
 def home():
@@ -21,8 +23,11 @@ def politician_trades(id):
 
 @app.route('/trades')
 def trades():
-    trades = db.session.query(Trade).all()
-    return jsonify([to_dict(trade) for trade in trades])
+    house_trades = Trade.house_trades("dev")
+    senate_trades = Trade.senate_trades("dev")
+    all_trades_data = house_trades + senate_trades
+    return jsonify(all_trades_data)
+
 
 @app.route('/trades/<marker>')
 def trades_by_stock(marker):

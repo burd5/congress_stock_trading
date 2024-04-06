@@ -7,3 +7,5 @@ __pycache__/
 .flaskenv
 dashboard/secrets.toml
 trades_dbt/dbt_profiles
+frontend/node_modules
+frontend/public
