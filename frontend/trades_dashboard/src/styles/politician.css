@@ -1,0 +1,77 @@
+/* Page container */
+.page-container {
+    /* Set the card container at the top left of the page */
+    display: flex;
+    justify-content: flex-start; /* Aligns content to the left */
+    align-items: flex-start; /* Aligns content to the top */
+    height: 100vh; /* Ensures full height of the page */
+}
+
+/* Card container */
+.card-container {
+    /* Specify width and padding for the card */
+    width: 400px; /* Adjust the width as needed */
+    padding: 20px; /* Add padding to the card */
+    
+    /* Styling for the card appearance */
+    background-color: white; /* Card background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for 3D effect */
+    text-align: center; /* Center text */
+    
+    /* Margin from the top left corner */
+    margin-top: 20px; /* Adjust the distance from the top of the page */
+    margin-left: 20px; /* Adjust the distance from the left side of the page */
+}
+
+/* Politician image */
+.politician-image {
+    /* Make the image full width */
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Round the corners */
+}
+
+/* Politician information section */
+.politician-info {
+    margin-top: 20px; /* Add spacing above the information */
+}
+
+/* Politician details */
+.politician-details p {
+    margin: 10px 0; /* Space between each detail */
+    text-align: left; /* Align text to the left */
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Loading circle */
+.loading-circle {
+    border: 8px solid #ccc;
+    border-top: 8px solid red; /* Loading circle color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+/* Spin animation for loading circle */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

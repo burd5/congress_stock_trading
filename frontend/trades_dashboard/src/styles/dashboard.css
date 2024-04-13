@@ -1,98 +1,88 @@
-/* dashboard.css */
-body {
-    background-color: #ffffff;
-    color: #000000;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .dashboard {
-    margin: 0 auto;
-    max-width: 100%;
-    background-color: #ffffff;
-    padding: 20px;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .table th,
-  .table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #000000;
-  }
-  
-  .table th {
-    background-color: #000000;
-    color: #ffffff;
-  }
-  
-  .pagination {
-    margin-top: 20px;
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .pagination li {
-    padding: 5px;
-  }
-  
-  .pagination li button {
-    background-color: #000000;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .pagination li button:hover {
-    background-color: #888888;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .table-container {
-    width: 50%;
-    height: 50%;
-    position: relative;
-  }
-  
-  /* dashboard.css */
+/* stockinfo.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white; /* Change background color */
+}
 
-/* dashboard.css */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 1rem;
+  border-radius: 50%; /* Make the image circular */
+}
+
+h1 {
+  margin: 0;
+  color: rgb(82,47,71);
+}
+
+.search-bar {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+.dashboard-container {
+  margin-top: 2rem;
+}
 
 .table-container {
-  position: relative; /* Set position to relative */
+  width: 90%;
+  margin: auto;
 }
 
 .loader {
-  position: absolute; /* Set position to absolute */
-  top: 50%; /* Center the loader vertically */
-  left: 50%; /* Center the loader horizontally */
-  transform: translate(-50%, -50%); /* Center the loader both vertically and horizontally */
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3498db;
+  border: 8px solid #f3f3f3;
   border-radius: 50%;
+  border-top: 8px solid #3498db;
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
 }
 
+.table-cell {
+  text-align: center;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7); /* Optional: light background overlay */
+}
+
+/* Loading circle */
+.loading-circle {
+  width: 60px;
+  height: 60px;
+  border: 8px solid #fff;
+  border-top: 8px solid red; /* Color of the loading spinner (red) */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyframes for spinner animation */
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
+  from {
+      transform: rotate(0deg);
   }
-  100% {
-    transform: rotate(360deg);
+  to {
+      transform: rotate(360deg);
   }
 }
 
-  

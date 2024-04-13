@@ -1,0 +1,32 @@
+/* Loading overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.7); /* Optional: light background overlay */
+}
+
+/* Loading circle */
+.loading-circle {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #fff;
+    border-top: 8px solid red; /* Color of the loading spinner (red) */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Keyframes for spinner animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

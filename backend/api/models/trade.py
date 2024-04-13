@@ -2,7 +2,8 @@ import backend.api.models as models
 from backend.api.lib.orm import build_from_record
 from backend.api import db
 from sqlalchemy.orm import relationship
-from backend.api.lib.db import create_supabase_connection
+from backend.api.lib.db import create_supabase_connection, conn_string
+import psycopg2
 
 class Trade(db.Model):
     __tablename__ = 'dev.stg_house_trades'
@@ -21,20 +22,15 @@ class Trade(db.Model):
     # stock = relationship('Stock', back_populates='trades', overlaps='politicians,stocks')
 
     @classmethod
-    def house_trades(cls, schema):
-        supabase = create_supabase_connection(schema)
-        house_trades_result = supabase.table('stg_house_trades').select("*").execute()
-        house_trades_data = house_trades_result.__dict__['data']
+    def trades(cls):
+        conn = psycopg2.connect(conn_string)
+        cursor = conn.cursor()
+        cursor.execute("select * from dev.int_trades where EXTRACT(YEAR from transaction_date) = 2024 order by transaction_date desc")
+        records = cursor.fetchall()
+        conn.close()
 
-        return house_trades_data
+        return records
     
-    @classmethod
-    def senate_trades(cls, schema):
-        supabase = create_supabase_connection(schema)
-        senate_trades_result = supabase.table('stg_senate_trades').select("*").execute()
-        senate_trades_data = senate_trades_result.__dict__['data']
-
-        return senate_trades_data
 
 
 

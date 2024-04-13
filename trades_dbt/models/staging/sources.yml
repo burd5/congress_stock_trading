@@ -4,5 +4,8 @@ sources:
     database: postgres
     schema: public
     tables:
+      - name: politicians
+      - name: stocks
       - name: house_trades
       - name: senate_trades
+      
