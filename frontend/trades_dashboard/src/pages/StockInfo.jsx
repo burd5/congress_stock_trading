@@ -5,8 +5,11 @@ import { format } from 'date-fns';
 import Plotly from 'plotly.js-dist-min';
 
 const StockInfoPage = () => {
-    const { name, type, ticker, date } = useParams();
+    const { politician_id, type, ticker, date, amount } = useParams();
     const [stockData, setStockData] = useState(null);
+    const [stockName, setStockName] = useState(null);
+    const [politicianData, setPoliticianData] = useState(null);
+    const [performancePercentage, setPerformancePercentage] = useState(null);
     const [loading, setLoading] = useState(true);
     const chartRef = React.useRef(null);
 
@@ -16,15 +19,19 @@ const StockInfoPage = () => {
                 setLoading(true);
                 const response = await axios.get('http://127.0.0.1:5000/stock-info', {
                     params: {
-                        name,
+                        politician_id,
                         type,
                         ticker,
                         date: encodeURIComponent(date),
+                        amount,
                     },
                 });
 
                 if (response.status === 200) {
-                    setStockData(response.data);
+                    setStockData(response.data[0]);
+                    setPoliticianData(response.data[1]);
+                    setStockName(response.data[2]);
+                    setPerformancePercentage(response.data[3]);
                     setLoading(false);
                 } else {
                     throw new Error('Failed to fetch data');
@@ -36,9 +43,26 @@ const StockInfoPage = () => {
         };
 
         fetchData();
-    }, [name, type, ticker, date]);
+    }, [politician_id, type, ticker, date, amount]);
 
     const purchaseDateFormatted = format(new Date(date), 'MM/dd/yyyy');
+
+    const getTypeLabel = (type) => {
+        switch (type) {
+            case 'Sale':
+                return 'Sold';
+            case 'Purchase':
+                return 'Purchased';
+            case 'Exchange':
+                return 'Exchanged';
+            case 'Sale (partial)':
+                return 'Sold Partial';
+            case 'Sale (full)':
+                return 'Sold';
+            default:
+                return type; // Return the original type if no match is found
+        }
+    };
 
     useEffect(() => {
         if (!stockData) return;
@@ -69,7 +93,7 @@ const StockInfoPage = () => {
                 color: '#B0B0B0',
                 shape: 'spline',
             },
-            name: 'Before Transaction', // Update legend name
+            name: 'Before Transaction',
         };
 
         const afterTrace = {
@@ -80,79 +104,78 @@ const StockInfoPage = () => {
                 color: afterColor,
                 shape: 'spline',
             },
-            name: 'After Transaction', // Update legend name
+            name: 'After Transaction',
         };
 
-        // Create layout
+        // Layout settings
         const layout = {
-          title: {
-              text: `${ticker} Stock Prices`,
-              font: {
-                  color: 'black',
-              },
-          },
-          xaxis: {
             title: {
-                text: 'Date',
+                text: `${ticker} Stock Price History`,
                 font: {
                     color: 'black',
                 },
             },
-            showgrid: false,
-            showticklabels: true,
-            tickfont: {
-                color: 'black',
+            xaxis: {
+                title: {
+                    text: 'Date',
+                    font: {
+                        color: 'black',
+                    },
+                },
+                showgrid: false,
+                showticklabels: true,
+                tickfont: {
+                    color: 'black',
+                },
+                tickvals: data.map((d, i) => {
+                    // Return index values every 30 days (or desired frequency)
+                    if (i >= 20 && (i - 20) % 30 === 0) {
+                        return i;
+                    }
+                    return null;
+                }).filter((v) => v !== null),
+                ticktext: data.map((d, i) => {
+                    // Return formatted dates every 30 days
+                    if (i >= 20 && (i - 20) % 30 === 0) {
+                        return format(new Date(d.date), 'MMM yyyy');
+                    }
+                    return null;
+                }).filter((v) => v !== null),
             },
-            tickvals: data.map((d, i) => {
-                // Start from 20 days in, then show ticks every 30 days (or whatever frequency you want)
-                if (i >= 20 && (i - 20) % 30 === 0) {
-                    return i;
-                }
-                return null;
-            }).filter((v) => v !== null),
-            ticktext: data.map((d, i) => {
-                // Start from 20 days in, then format dates every 30 days
-                if (i >= 20 && (i - 20) % 30 === 0) {
-                    return format(new Date(d.date), 'MMM yyyy');
-                }
-                return null;
-            }).filter((v) => v !== null),
-        },
-        
-          yaxis: {
-              title: {
-                  text: 'Close Price',
-                  font: {
-                      color: 'black',
-                  },
-              },
-              showgrid: false,
-              tickfont: {
-                  color: 'black',
-              },
-          },
-          paper_bgcolor: 'white',
-          plot_bgcolor: 'white',
-          hovermode: 'closest',
-          hoverlabel: {
-              bgcolor: 'white', // Set tooltip background color to white
-              font: {
-                  color: 'black', // Set tooltip text color to black
-              },
-          },
-          showlegend: true,
-          legend: {
-              x: 0.75, // Set x-position of the legend (0 to 1, from left to right)
-              y: 1.3, // Set y-position of the legend (0 to 1, from bottom to top)
-              bgcolor: 'rgba(255, 255, 255, 0.9)',
-              bordercolor: 'black',
-              borderwidth: 1,
-              font: {
-                  color: 'black',
-              },
-          }
-      };
-      
+            yaxis: {
+                title: {
+                    text: 'Close Price',
+                    font: {
+                        color: 'black',
+                    },
+                },
+                showgrid: false,
+                tickfont: {
+                    color: 'black',
+                },
+            },
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white',
+            hovermode: 'closest',
+            hoverlabel: {
+                bgcolor: 'white',
+                font: {
+                    color: 'black',
+                },
+            },
+            showlegend: true,
+            legend: {
+                x: 0.85,
+                y: 1.3,
+                bgcolor: 'rgba(255, 255, 255, 0.9)',
+                bordercolor: 'black',
+                borderwidth: 1,
+                font: {
+                    color: 'black',
+                },
+            },
+        };
+
         // Simplify tooltips to only show date and price
         beforeTrace.hovertemplate = 'Date: %{x}<br>Close Price: $%{y:.2f}<extra></extra>';
         afterTrace.hovertemplate = 'Date: %{x}<br>Close Price: $%{y:.2f}<extra></extra>';
@@ -162,32 +185,65 @@ const StockInfoPage = () => {
     }, [stockData]);
 
     return (
-        <div>
-            {/* Politician card */}
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            width: '100%',
+            padding: '20px',
+            boxSizing: 'border-box',
+        }}>
+            {/* Title card */}
             <div style={{
-                width: '50%',
-                margin: 'auto',
+                width: '25%',
                 padding: '15px',
                 borderRadius: '8px',
-                backgroundColor: 'white', // Set card background color to white
-                color: 'black', // Set text color to black
+                backgroundColor: 'white',
+                color: 'black',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
                 textAlign: 'center',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Add a light silhouette effect
+                height: '500px', // Set the height to match the chart card
+                marginRight: '10px',
             }}>
-                <h2>{name}</h2>
-                <h4>{ticker} | {type}</h4>
-                <p>{date}</p>
+                {/* Displaying politician data */}
+                {politicianData && (
+                    <>
+                        <h2>{politicianData[1]}</h2>
+                        <img
+                            src={politicianData[6]}
+                            alt={`${politicianData[1]} Photo`}
+                            className="politician-image"
+                        />
+                        <p>{`${politicianData[2]} - ${politicianData[4]} - ${politicianData[5]}`}</p>
+                        <h4>{`${stockName[2]} (${stockName[1]})`}</h4>
+                    </>
+                )}
+                <p>{getTypeLabel(type)} {amount} on {date}</p>
+
+                {/* Displaying performance percentage with corresponding arrow */}
+                {performancePercentage !== null && (
+                    <p style={{ marginTop: '10px' }}> 
+                        {performancePercentage >= 0 ? (
+                            <span style={{ color: 'green' }}>
+                                &#x2191; {`${performancePercentage.toFixed(2)}%`}
+                            </span>
+                        ) : (
+                            <span style={{ color: 'red' }}>
+                                &#x2193; {`${performancePercentage.toFixed(2)}%`}
+                            </span>
+                        )}
+                    </p>
+                )}
             </div>
 
-            {/* Graph card */}
+            {/* Chart card */}
             <div style={{
-                width: '50%',
-                margin: 'auto',
-                marginTop: '20px', // Add space between cards
+                width: '75%',
                 padding: '15px',
                 borderRadius: '8px',
-                backgroundColor: 'white', // Set card background color to white
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Add a light silhouette effect
+                backgroundColor: 'white',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                height: '500px', // Set height explicitly
             }}>
                 {loading ? (
                     <div className="loading-overlay">

@@ -9,7 +9,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/stock-info/:name/:type/:ticker/:date" element={<StockInfo />} />
+        <Route path="/stock-info/:politician_id/:type/:ticker/:date/:amount" element={<StockInfo />} />
         <Route path="/politicians/:id" element={<Politician />} />
       </Routes>
     </Router>

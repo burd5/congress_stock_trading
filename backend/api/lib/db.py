@@ -51,6 +51,9 @@ def add_report_record(record: list):
     conn.commit()
     conn.close()
 
+def add_congress_image(name, image):
+    pass
+
 def check_asset_existence(record: dict):
     conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()

@@ -30,3 +30,11 @@
         transform: rotate(360deg);
     }
 }
+
+.politician-image {
+    width: 100px; /* Adjust size as desired */
+    height: 100px; /* Adjust size as desired */
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure the image covers the area */
+    margin-bottom: 10px; /* Add margin between the image and the name */
+}

@@ -42,14 +42,13 @@ def trades_by_stock(marker):
 
 @app.route('/stock-info')
 def politicians_who_bought_stock():
-    # stock = db.session.query(Stock).filter_by(stock_marker=marker.upper()).first()
-    # return jsonify([to_dict(politician) for politician in stock.politicians]) if stock else []
+    politician_id = request.args.get('politician_id')
+    politician = Politician.politician(politician_id)
     ticker = request.args.get('ticker')
+    stock = Stock.find_by_stock_marker(ticker)
     date = request.args.get('date')
-    decoded_date = '-'.join(date.split('%2F'))
-    month, day, year = decoded_date.split('-')
-    stock_data = Stock().find_stock_history(ticker, f'{year}-{month}-{day}')
-    return jsonify(stock_data)
+    stock_data, performance_percentage = Stock().find_stock_history(ticker, date)
+    return jsonify(stock_data, politician, stock, performance_percentage)
 
 @app.shell_context_processor
 def make_shell_context():

@@ -3,9 +3,6 @@ pandas
 flask
 selenium
 pytest
-# camelot-py
-# camelot-py[cv]
-# camelot-py[plot]
 bs4
 lxml
 psycopg2-binary
@@ -18,6 +15,6 @@ SQLAlchemy
 Flask-SQLAlchemy
 pdfplumber
 dbt-postgres
-# supabase_py
-# supabase
-# flask-cors
+supabase_py
+supabase
+flask-cors

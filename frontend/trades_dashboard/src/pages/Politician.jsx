@@ -21,9 +21,9 @@ const Politician = () => {
                         office: data[2],
                         state: data[3],
                         political_party: data[4],
+                        image: data[6]
                     };
                     setPoliticianData(formattedData);
-                    console.log('Fetched politician data:', formattedData);
                 } else {
                     console.error('Failed to fetch data');
                 }
@@ -43,22 +43,27 @@ const Politician = () => {
                     <div className="loading-circle"></div>
                 </div>
             ) : (
-                <div className="card-container">  {/* Add a container with card styles */}
-                    {/* Image Placeholder */}
-                    <img src="#" alt="Politician" className="politician-image" />  {/* Replace "#" with the actual image URL */}
-                    
+                <div className="card-container">
                     {/* Politician Information */}
                     <div className="politician-info">
-                        <h2>{politicianData ? politicianData.name : id}</h2>
-                        {politicianData ? (
-                            <div className="politician-details">
-                                {/* Stack Office, State, and Party */}
-                                <p><strong>Office:</strong> {politicianData.office}</p>
-                                <p><strong>State:</strong> {politicianData.state}</p>
-                                <p><strong>Party:</strong> {politicianData.political_party}</p>
+                        {politicianData && (
+                            <div className="politician-header">
+                                {/* Politician Name */}
+                                <h2>{politicianData.name}</h2>
+                                {/* Politician Image */}
+                                <img
+                                    src={politicianData.image}
+                                    alt={`${politicianData.name} Photo`}
+                                    className="politician-image"
+                                />
                             </div>
-                        ) : (
-                            <div>Failed to fetch politician data.</div>
+                        )}
+                        {/* Politician Details */}
+                        {politicianData && (
+                            <div className="politician-details">
+                                {/* Format: "{office} {political_party}/{state}" */}
+                                <p>{`${politicianData.office} - ${politicianData.political_party} - ${politicianData.state}`}</p>
+                            </div>
                         )}
                     </div>
                 </div>

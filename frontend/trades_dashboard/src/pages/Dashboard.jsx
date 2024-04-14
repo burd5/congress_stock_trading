@@ -78,7 +78,7 @@ const Dashboard = () => {
             Cell: row => (
                 row.value !== '--' ? (
                     <Link
-                        to={`/stock-info/${row.original.politician_name}/${row.original.purchased_or_sold}/${row.value}/${encodeURIComponent(row.original.transaction_date)}`}
+                        to={`/stock-info/${row.original.politician_id}/${row.original.purchased_or_sold}/${row.value}/${encodeURIComponent(row.original.transaction_date)}/${row.original.amount}`}
                         style={{ color: 'black', display: 'block', textAlign: 'center' }}
                         className="table-cell"
                     >
