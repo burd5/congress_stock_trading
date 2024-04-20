@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import StockInfo from './pages/StockInfo';
-import Politician from './pages/Politician';
+import Dashboard from './components/Dashboard';
+import StockInfo from './components/StockInfo';
+import Politician from './components/Politician';
 
 const App = () => {
   return (

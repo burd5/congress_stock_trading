@@ -60,7 +60,7 @@
     height: 100px; /* Adjust size as desired */
     border-radius: 50%; /* Make the image circular */
     object-fit: cover; /* Ensure the image covers the area */
-    margin-bottom: 10px; /* Add margin between the image and the name */
+    margin-bottom: 0px; /* Add margin between the image and the name */
 }
 
 /* Politician name */

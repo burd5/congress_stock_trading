@@ -6,7 +6,7 @@ from backend.api.lib.db import create_supabase_connection, conn_string
 import psycopg2
 
 class Trade(db.Model):
-    __tablename__ = 'dev.stg_house_trades'
+    __tablename__ = 'dev.int_trades'
     attributes = ['id', 'politician_name', 'stock ticker', 'stock_information', 'purchased_or_sold', 'transaction_date', 'amount']
 
     id = db.Column(db.Integer, primary_key=True)

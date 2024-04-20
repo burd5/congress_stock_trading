@@ -41,30 +41,29 @@ class Stock(db.Model):
         month, day, year = decoded_date.split('-')
         if '.' in name: name = name.replace('.', '-')
         transaction_date = datetime.strptime(f'{year}-{month}-{day}', '%Y-%m-%d')
+
+        while transaction_date.weekday() >= 5:
+        # If the date is Saturday (5) or Sunday (6), increment by one day
+            transaction_date += timedelta(days=1)
+
+        transaction_date_str = transaction_date.strftime('%Y-%m-%d')
+        
         new_start_date = transaction_date - timedelta(days=180)
         new_start_date_str = new_start_date.strftime('%Y-%m-%d')
-        new_end_date = datetime.now().date()
-        new_end_date_str = new_end_date.strftime('%Y-%m-%d')
-        data = yf.download(name, start=new_start_date_str, end=new_end_date_str)
-        data.index = data.index.astype(str)
 
-             # Calculate the close price of the transaction date
-        if transaction_date.strftime('%Y-%m-%d') in data.index:
-            transaction_close_price = data.loc[transaction_date.strftime('%Y-%m-%d')]['Close']
-        else:
-            transaction_close_price = None
+        new_end_date = datetime.now().date()
+        while new_end_date.weekday() >= 5:
+        # If the date is Saturday (5) or Sunday (6), increment by one day
+            new_end_date -= timedelta(days=1)
+
+        new_end_date_str = new_end_date.strftime('%Y-%m-%d')
+        data = yf.download(name, start=new_start_date_str)
         
-        # Calculate the current close price (last price)
-        if len(data) > 0:
-            current_close_price = data['Close'].iloc[-1]
-        else:
-            current_close_price = None
+        current_price = data.loc[new_end_date_str, 'Close']
+        transaction_price = data.loc[transaction_date_str, 'Close']
+
+        percent_difference = round(((current_price - transaction_price) / transaction_price) * 100, 2)
+
+        data.index = data.index.astype(str)
         
-        # Calculate performance percentage if prices are available
-        if transaction_close_price is not None and current_close_price is not None:
-            performance_percentage = ((current_close_price - transaction_close_price) / transaction_close_price) * 100
-        else:
-            performance_percentage = None
-        
-        
-        return data.to_dict(orient='index'), performance_percentage
+        return data.to_dict(orient='index'), percent_difference

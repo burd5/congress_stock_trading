@@ -1,40 +1,58 @@
-/* Loading overlay */
-.loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+/* Container style */
+.stock-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     width: 100%;
-    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Title card style */
+.title-card {
+    width: 25%;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    height: 520px;
+    margin-right: 10px;
+}
+
+/* Chart card style */
+.chart-card {
+    width: 75%;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 0px 8px rgba(0, 0, 0, 0.45);
+    height: 520px;
+}
+
+/* Loading overlay style */
+.loading-overlay {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.7); /* Optional: light background overlay */
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
 }
 
-/* Loading circle */
+/* Loading circle style */
 .loading-circle {
-    width: 60px;
-    height: 60px;
-    border: 8px solid #fff;
-    border-top: 8px solid red; /* Color of the loading spinner (red) */
+    border: 4px solid #ddd;
+    border-top: 4px solid #3498db;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
 }
 
-/* Keyframes for spinner animation */
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.politician-image {
-    width: 100px; /* Adjust size as desired */
-    height: 100px; /* Adjust size as desired */
-    border-radius: 50%; /* Make the image circular */
-    object-fit: cover; /* Ensure the image covers the area */
-    margin-bottom: 10px; /* Add margin between the image and the name */
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
