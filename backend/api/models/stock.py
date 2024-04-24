@@ -51,7 +51,7 @@ class Stock(db.Model):
         new_start_date = transaction_date - timedelta(days=180)
         new_start_date_str = new_start_date.strftime('%Y-%m-%d')
 
-        new_end_date = datetime.now().date()
+        new_end_date = datetime.now().date() 
         while new_end_date.weekday() >= 5:
         # If the date is Saturday (5) or Sunday (6), increment by one day
             new_end_date -= timedelta(days=1)

@@ -1,4 +1,5 @@
 <h1>Congress Trades Tracker</h1>
+<img src="./images/stock_shot.png">
 <p>
 Congress Trades Tracker is a project that aims to make congressional stock trading more transparent. There has been increased scrutiny on US Congress members stock activity, especially as it pertains to insider trading. This dashboard visualizes stock exchanges, shows performance returns, and highlights overall performance and activity on a member by member basis. The current product does not make direct connections between committee assignments or any other insider "knowledge" and individual stock exchanges. It does showcase the trade strategies of many incredibly wealthy politicians who often outperform the S&P 500 on a year to year basis. This allows the average stock trader or citizen to dig deeper into representatives' trade histories in search of fruitful strategies or nefarious activity. 
 </p>
@@ -8,10 +9,10 @@ Congress Trades Tracker is a project that aims to make congressional stock tradi
 
 <h2>Pipeline</h2>
 <img src="./images/Congress Trades Pipeline Fargate.png">
-<p><span src="https://efdsearch.senate.gov/search/">Senate</span> and <span src="https://disclosures-clerk.house.gov/FinancialDisclosure">House</span> trades are stored on separate websites, with the House trades being much harder to extract given that the trade tables are stored on PDF documents. Separate Python scripts use Selenium and Beauitful Soup to scrape, transform (lightly), and write records to a Supabase DB. The records are then transformed with DBT to create integration and mart layers. The entire ELT process is Dockerized and run on a weekly schedule using AWS ECR, ECS, Fargate, and EventBridge.</p>
+<p><a href="https://efdsearch.senate.gov/search/">Senate</a> and <a href="https://disclosures-clerk.house.gov/FinancialDisclosure">House</span> trades are stored on separate websites, with the House trades being much harder to extract given that the trade tables are stored on PDF documents. Separate Python scripts use Selenium and Beauitful Soup to scrape, transform (lightly), and write records to a Supabase DB. The records are then transformed with DBT to create integration and mart layers. The entire ELT process is Dockerized and run on a weekly schedule using AWS ECR, ECS, Fargate, and EventBridge.</p>
 
 <h2>DB Model</h2>
-<img src="./images/db_model.png">
+<img src="./images/model_final.png">
 
 <h2>Main Tech Used</h2>
     <ul>

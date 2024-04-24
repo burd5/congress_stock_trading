@@ -1,3 +1,24 @@
+# matplotlib
+# pandas
+# flask
+# selenium
+# pytest
+# bs4
+# lxml
+# psycopg2-binary
+# python-dotenv
+# opencv-python
+# PyPDF2<3.0
+# datetime
+# awswrangler
+# SQLAlchemy
+# Flask-SQLAlchemy
+# pdfplumber
+# dbt-postgres
+# supabase
+# flask-cors
+# yfinance
+
 agate                     ==1.7.1
 annotated-types           ==0.6.0
 anyio                     ==4.3.0
