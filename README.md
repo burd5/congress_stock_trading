@@ -1,7 +1,7 @@
 <h1>Congress Trades Tracker</h1>
 <img src="./images/stock_shot.png">
 <p>
-Congress Trades Tracker is a project that aims to make congressional stock trading more transparent. There has been increased scrutiny on US Congress members stock activity, especially as it pertains to insider trading. This dashboard visualizes stock exchanges, shows performance returns, and highlights overall performance and activity on a member by member basis. The current product does not make direct connections between committee assignments or any other insider "knowledge" and individual stock exchanges. It does showcase the trade strategies of many incredibly wealthy politicians who often outperform the S&P 500 on a year to year basis. This allows the average stock trader or citizen to dig deeper into representatives' trade histories in search of fruitful strategies or nefarious activity. 
+Congress Trades Tracker is a project that aims to make congressional stock trading more transparent. There has been increased scrutiny on US Congress members stock activity, especially as it pertains to insider trading. This dashboard visualizes stock exchanges, shows performance returns, and highlights overall performance and activity on a member by member basis. The current product does not make direct connections between committee assignments or any other insider "knowledge" and individual stock exchanges. It does showcase the trade strategies of many politicians who often outperform the S&P 500 on a year to year basis. 
 </p>
 
 <h2>Installation</h2>
